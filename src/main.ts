@@ -1,3 +1,5 @@
+const CANVAS_ID = "canvas";
+
 function main(CANVAS_ID: string) {
 	const WIDTH: number = document.body.clientWidth;
 	const HEIGHT: number = Math.round(WIDTH * 7.5 / 16); // browser widescreen
@@ -23,3 +25,5 @@ function mainCycle(canvas: HTMLCanvasElement) {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	iteration++;
 }
+
+main(CANVAS_ID);
