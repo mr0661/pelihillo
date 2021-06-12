@@ -4,21 +4,10 @@ const config = require('../utils/config');
 const options = config.DATABASE_OPTIONS;
 const knex = require('knex')(options);
 
-
-router.get('/doors', (req, res, next) => {
-    knex('doors').orderBy('door_id', 'asc')
-        .then(doors => {
-            res.status(200).json(doors);
-        })
-        .catch(err => {
-            res.status(500).json({error: 'Database error while getting request.'});
-        });
-});
-
-// Get all notes from given room.
+// Get all notes from given door, ordered by total points.
 router.get('/notes/:id', (req, res, next) => {
     const id = req.params.id;
-    knex('notes').join('doors', 'notes.door_id', 'doors.door_id').where('doors.room_id', id).orderBy('note_id', 'asc')
+    knex.select('*', knex.raw('(up + down) as points')).from('notes').where('door_id', id).orderBy('points', 'desc')
         .then(notes => {
             res.status(200).json(notes);
         })
@@ -55,24 +44,24 @@ router.post('/notes/:id', (req, res, next) => {
     });
 });
 
-// Upvote / downvote note.
-router.patch('/notes/:id', (req, res, next) => {
+// Upvote note.
+router.patch('/notes/up/:id', (req, res, next) => {
     const id = req.params.id;
-    if(req.body.up === true){
         knex('notes').where('note_id', id).increment({up: 1}).then(upVoted => {
-            res.status(200).json("ok");
+            res.status(200).json("Note has been upvoted.");
         }).catch(err => {
                 res.status(500).json({error: 'Database error while upvoting.'});
         });
-    } else if (req.body.down === true) {
+});
+
+// Downvote note.
+router.patch('/notes/down/:id', (req, res, next) => {
+    const id = req.params.id;
         knex('notes').where('note_id', id).decrement({down: 1}).then(downVoted => {
-            res.status(200).json("ok");
+            res.status(200).json("Note has been downvoted.");
         }).catch(err => {
                 res.status(500).json({error: 'Database error while downvoting.'});
         });
-    } else {
-        res.status(400).json({error: 'Unknown command.'});
-    };
 });
 
 module.exports = router;
