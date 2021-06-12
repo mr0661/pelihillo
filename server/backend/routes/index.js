@@ -16,7 +16,7 @@ router.get('/notes/:id', (req, res, next) => {
         });
 });
 
-// Post new note and delete lowest (if there are 3 notes already).
+// Post new note and delete lowest (if there are 3 notes already). If multiple notes have same lowest point value, newest is dropped.
 router.post('/notes/:id', (req, res, next) => {
     const id = req.params.id;
     const newNote = {door_id: req.params.id, up: 0, down: 0, note: req.body.note};
@@ -25,7 +25,7 @@ router.post('/notes/:id', (req, res, next) => {
             if(notes.length >= 3) {
                 knex('notes').where('note_id', notes[notes.length - 1].note_id).del().then(delBoolean => {
                     knex('notes').insert(newNote).then(added => {
-                            res.status(200).json("ok");
+                            res.status(200).json("New note posted.");
                     }).catch(err => {
                             res.status(500).json({error: 'Database error while getting request.'});
                     });
@@ -34,7 +34,7 @@ router.post('/notes/:id', (req, res, next) => {
                 });
             } else {
                 knex('notes').insert(newNote).then(added => {
-                    res.status(200).json("ok");
+                    res.status(200).json("New note posted.");
                 }).catch(err => {
                         res.status(500).json({error: 'Database error while getting request.'});
                 });
