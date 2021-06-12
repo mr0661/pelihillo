@@ -1,14 +1,12 @@
 import {Skill} from "./core";
 
 export class Character {
-	readonly primarySkill: Skill;
-	readonly secondarySkill: Skill;
+	readonly Skill: Skill;
 	HP: number;
 	doom_track?: number;
 
-	constructor(primary: Skill, secondary: Skill) {
-		this.primarySkill   = primary;
-		this.secondarySkill = secondary;
+	constructor(skill: Skill) {
+		this.Skill   = skill;
 		this.HP = 10;
 	}
 
@@ -29,7 +27,7 @@ export class Character {
 	}
 }
 
-export let Fighter  = new Character(Skill.Strength , Skill.Craft    );
-export let Rogue    = new Character(Skill.Precision, Skill.Strength );
-export let Thinker  = new Character(Skill.Smarts   , Skill.Precision);
-export let Tinkerer = new Character(Skill.Craft    , Skill.Smarts   );
+export let Fighter  = new Character(Skill.Strength );
+export let Rogue    = new Character(Skill.Precision);
+export let Thinker  = new Character(Skill.Smarts   );
+export let Tinkerer = new Character(Skill.Craft    );
