@@ -1,6 +1,7 @@
 import {Coord} from "./coord";
 
 export enum SpriteName{
+	ROOM_BG,
 	DOOR_LEFT_OPEN,
 	DOOR_MIDDLE_OPEN,
 	DOOR_RIGHT_OPEN,
@@ -23,12 +24,13 @@ export enum SpriteName{
 }
 
 let SPRITE_URLS = [
-	"door_open.png",
-	"door_open.png",
-	"door_open.png",
-	"door_closed.png",
-	"door_closed.png",
-	"door_closed.png",
+	"room.png",
+	"door1_open.png",
+	"door2_open.png",
+	"door3_open.png",
+	"door1_closed.png",
+	"door2_closed.png",
+	"door3_closed.png",
 	"char1_back.png",
 	"char1_back.png",
 	"char1_back.png",
@@ -70,6 +72,26 @@ class Drawer{
 	 */
 	allSpritesLoaded(): boolean{
 		return this.spritesLoaded == SPRITE_URLS.length;
+	}
+
+	// Get scale which fits sprite to specified box
+	fitSpriteToBox(spriteName: SpriteName, boxSize: Coord) : Coord{
+		const image: HTMLImageElement = this.sprites[spriteName];
+		let imageSize = new Coord(image.width, image.height);
+		let ratio = new Coord(boxSize.x / imageSize.x, boxSize.y / imageSize.y);
+		if (ratio.x < ratio.y){
+			return new Coord(ratio.x, ratio.x);
+		}
+		else{
+			return new Coord(ratio.y, ratio.y);
+		}
+	}
+
+	getSpriteSize(spriteName: SpriteName, scale?: number){
+		scale = scale || 1;
+		let image: HTMLImageElement = this.sprites[spriteName];
+		let imageSize = new Coord(image.width, image.height);
+		return imageSize.multiply(scale);
 	}
 
 	drawSprite(context: CanvasRenderingContext2D, spriteName: SpriteName, position: Coord, scale: Coord){

@@ -1,8 +1,8 @@
 import {Drawer, SpriteName} from "./sprites";
 import {Coord} from "./coord";
-import {UserInterfaceInterface} from "./interface";
-import {Animation, AnimationObject, RoomAnimation, CHARACTER_COUNT} from "./animation";
-import {TextBox} from "./textbox";
+import {UserInterfaceInterface, TextDisplayObject} from "./interface";
+import {Animation, AnimationObject, CHARACTER_COUNT, RoomAnimation} from "./animation";
+import {BASE_TEXTBOX_HEIGHT, TextBox, TEXTBOX_VERT_RATIO} from "./textbox";
 import {TextInput} from "./textinput";
 import {Character} from "../mechanics/character";
 
@@ -14,6 +14,7 @@ export enum Screen {
 }
 
 const ROOM_ENTER_DURATION: number = 500;
+const BASE_UI_HEIGHT: number = 1000;
 
 export class UserInterface implements UserInterfaceInterface {
 
@@ -21,6 +22,8 @@ export class UserInterface implements UserInterfaceInterface {
 
 	textBox: TextBox;
 	textInput: TextInput;
+
+	wallColor: string;
 
 	// Data set by Display
 	actionCallback: (choiceIndex: number) => void;
@@ -51,6 +54,7 @@ export class UserInterface implements UserInterfaceInterface {
 		this.actionCallback = function (choiceIndex: number) {
 			console.log("Chose " + choiceIndex);
 		}
+		this.wallColor = "#333";
 	}
 
 	/**
@@ -63,7 +67,7 @@ export class UserInterface implements UserInterfaceInterface {
 	 * @param callback Will call this function on user input with the index of the selected choice
 	 *                 or 0 if no choices supplied.
 	 */
-	display(text: string, choices: Array<string>, anim: AnimationObject | undefined, callback: (choiceIndex: number) => void) {
+	display(text: string, choices: Array<TextDisplayObject>, anim: AnimationObject | undefined, callback: (choiceIndex: number) => void) {
 		this.animation = anim || this.animation;
 		this.actionCallback = callback;
 		this.textBox.newText(text, choices);
@@ -88,6 +92,7 @@ export class UserInterface implements UserInterfaceInterface {
 		this.doorsOpen = doorsOpen;
 		this.enemySprite = enemySprite;
 		this.roomCallback = callback;
+		this.wallColor = this.randomWallColor();
 	}
 
 	/**
@@ -144,46 +149,81 @@ export class UserInterface implements UserInterfaceInterface {
 		return animTime;
 	}
 
+	private randomWallColor(): string{
+		const randB = 100 + Math.floor(Math.random() * 100);
+		const randG = randB - Math.floor(Math.random() * 50);
+		const randR = randB - Math.floor(Math.random() * 50);
+		return "rgb(" + randR + "," + randG + "," + randB + ")";
+	}
+
+	private getBgPosition(canvasSize: Coord){
+		const topRectSize = new Coord(canvasSize.x, canvasSize.y * (1 - TEXTBOX_VERT_RATIO));
+		let scale = this.drawer.fitSpriteToBox(SpriteName.ROOM_BG, topRectSize);
+		const bgSize = this.drawer.getSpriteSize(SpriteName.ROOM_BG, scale.x);
+		const pos: Coord = new Coord((canvasSize.x - bgSize.x) * 0.5, 0);
+		return {pos: pos, scale: scale, bgSize: bgSize};
+	}
+
 	// Draw room background (Walls and doors)
-	private drawRoomBackground(context: CanvasRenderingContext2D): void {
-		// Temp positioning
-		let offset = new Coord(300, 10);
+	private drawRoomBackground(context: CanvasRenderingContext2D, canvasSize: Coord): void {
+
+		// background
+		context.fillStyle = "#000";
+		context.fillRect(0, 0, canvasSize.x, canvasSize.y);
+		context.fillStyle = this.wallColor;
+
+		const posScale = this.getBgPosition(canvasSize);
+		const pos = posScale.pos;
+		const scale = posScale.scale;
+		const bgSize = posScale.bgSize;
+
+		context.fillRect(pos.x, pos.y, bgSize.x, bgSize.y);
+		this.drawer.drawSprite(context, SpriteName.ROOM_BG, pos, scale);
+
 		for (let i = 0; i < this.doorsOpen.length; i++) {
-			const pos: Coord = new Coord(i * 200, 0).add(offset);
-			this.drawer.drawSprite(context, SpriteName.DOOR_LEFT_OPEN + Number(this.doorsOpen[i]) * 3,
-				pos, new Coord(1, 1));
+			const spriteName = SpriteName.DOOR_LEFT_OPEN + i + Number(this.doorsOpen[i]) * 3;
+			this.drawer.drawSprite(context, spriteName, pos, scale);
 		}
 
 
 	}
 
 	// Draw player characters idle
-	private drawCharacterBacks(context: CanvasRenderingContext2D): void {
-		// Temp positioning
-		let offset = this.animation.roomAnimation != RoomAnimation.ROOM_ENTER ?
-			new Coord(100, 300) :
-			new Coord(this.animationElapsed(ROOM_ENTER_DURATION) * 500 - 400, 300);
+	private drawCharacterBacks(context: CanvasRenderingContext2D, canvasSize: Coord): void {
+		const posScale = this.getBgPosition(canvasSize);
+		const scale = posScale.scale.x;
 
+		let offsetY = posScale.pos.y + posScale.bgSize.y;
+		let defaultStart = posScale.pos.x + 50 * scale;
+		let offset = this.animation.roomAnimation != RoomAnimation.ROOM_ENTER ?
+			new Coord(defaultStart, offsetY) :
+			new Coord(defaultStart - (500 - this.animationElapsed(ROOM_ENTER_DURATION)) * scale, offsetY);
 
 		for (let i = 0; i < CHARACTER_COUNT; i++) {
 			let state: Animation = this.animation.characterAnimations.length > i ?
 				this.animation.characterAnimations[i] : Animation.IDLE;
 
 			if (state == Animation.IDLE) {
-				const pos: Coord = new Coord(i * 200, 0).add(offset);
+				let pos: Coord = new Coord(i * 200 * posScale.scale.x, 0).add(offset);
+				pos.y -= this.drawer.getSpriteSize(SpriteName.CHAR_1_BACK + i, scale).y;
 				const frame = state == Animation.IDLE ? 0 : 2;
 				this.drawer.drawSprite(context,
-					SpriteName.CHAR_1_BACK + CHARACTER_COUNT + frame,
-					pos, new Coord(1, 1));
+					SpriteName.CHAR_1_BACK + CHARACTER_COUNT * frame + i,
+					pos, posScale.scale);
 			}
 		}
 	}
 
 	private drawFront(context: CanvasRenderingContext2D, canvasSize: Coord): void{
-		const enemyPos: Coord = new Coord(800, 100);
 
-		if (this.animation.enemyAnimation != Animation.NOTHING){
-			this.drawer.drawSprite(context, this.enemySprite, enemyPos, new Coord(1, 1));
+		const posScale = this.getBgPosition(canvasSize);
+		const enemyBottom: Coord = posScale.pos.add(new Coord(posScale.bgSize.x * 0.65,
+			posScale.bgSize.y * 0.55));
+		const enemyTop = enemyBottom.copy();
+		enemyTop.y -= this.drawer.getSpriteSize(this.enemySprite, posScale.scale.x).y;
+
+		if (this.animation.enemyAnimation != Animation.IDLE){
+			this.drawer.drawSprite(context, this.enemySprite, enemyTop, posScale.scale);
 		}
 
 		for (let i = 0; i < CHARACTER_COUNT; i++) {
@@ -191,10 +231,10 @@ export class UserInterface implements UserInterfaceInterface {
 				this.animation.characterAnimations[i] : Animation.IDLE;
 
 			if (state == Animation.ACTION) {
-				const pos: Coord = enemyPos.add(new Coord(-100, 0));
-				this.drawer.drawSprite(context,
-					SpriteName.CHAR_1_FRONT + i,
-					pos, new Coord(1, 1));
+				const pos: Coord = enemyBottom.add(new Coord(-200, 200).multiply(posScale.scale.x));
+				const spriteName = SpriteName.CHAR_1_FRONT + i;
+				pos.y -= this.drawer.getSpriteSize(spriteName, posScale.scale.x).y;
+				this.drawer.drawSprite(context, spriteName, pos, posScale.scale);
 			}
 		}
 
@@ -202,10 +242,12 @@ export class UserInterface implements UserInterfaceInterface {
 
 	// Draw room screen
 	private drawRoom(context: CanvasRenderingContext2D, canvasSize: Coord): void {
-		this.drawRoomBackground(context);
-		this.drawCharacterBacks(context);
+		this.drawRoomBackground(context, canvasSize);
+		this.drawCharacterBacks(context, canvasSize);
 		this.drawFront(context, canvasSize);
-		this.textBox.draw(context, canvasSize);
+
+		const bgPos = this.getBgPosition(canvasSize);
+		this.textBox.draw(context, bgPos.pos, bgPos.scale, bgPos.bgSize);
 		if (this.textInput){
 			this.textInput.position();
 		}

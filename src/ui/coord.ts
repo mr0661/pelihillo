@@ -11,6 +11,9 @@ export class Coord{
 	add(o: Coord): Coord{
 		return new Coord(this.x + o.x, this.y + o.y);
 	}
+	subtract(o: Coord): Coord{
+		return new Coord(this.x - o.x, this.y - o.y);
+	}
 	multiply(mp: number): Coord{
 		return new Coord(this.x * mp, this.y * mp);
 	}

@@ -3,24 +3,34 @@ import {SpriteName} from "./sprites";
 import {Animation, AnimationObject} from "./animation";
 import {clearRoom} from "../mechanics/gameplay";
 import {getRandomChallenge} from "../mechanics/challenges";
+import {Challenge} from "../mechanics/core";
+import {TextDisplayObject} from "./interface";
+import * as Characters from "../mechanics/character";
 
 class RoomTextObject{
 	text: string;
-	choices: Array<string>;
+	choices: Array<TextDisplayObject>;
 	follows: Array<number>;
 
-	constructor(text: string, choices: Array<string>, follows: Array<number>) {
+	constructor(text: string, choices: Array<TextDisplayObject>, follows: Array<number>) {
 		this.text = text;
 		this.choices = choices;
 		this.follows = follows;
 	}
 }
 
+const DUDE_CHOICES = [
+	new TextDisplayObject("Fighter", "Choose Fighter", false),
+	new TextDisplayObject("Ranger", "Choose Ranger", true),
+	new TextDisplayObject("Thinker", "Choose Thinker", false),
+	new TextDisplayObject("Tinkerer", "Choose Tinkerer", false)
+];
+
 const ROOM_INTRO = [
 	new RoomTextObject("You enter a room. It is dark.", [], []),
 	new RoomTextObject("You see a questionable looking creature right ahead...", [], []),
 		new RoomTextObject("...It looks like it wants to fight.",
-			["Send dude1", "Send dude2", "Send dude3", "Send dude4"], [3, 4, 4, 4]),
+			DUDE_CHOICES, [3, 4, 4, 4]),
 	new RoomTextObject("You absolutely annihilate it.", [], [5]),
 	new RoomTextObject("Whelp, he died. Your dude, that is.", [], [6]),
 	new RoomTextObject("The end.", [], [7]),
