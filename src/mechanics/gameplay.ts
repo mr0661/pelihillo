@@ -15,3 +15,20 @@ export function resolveChallenge(character: Characters.Character, challenge: Cor
 	character.loseHP(result.damage);
 	return result.resolution;
 }
+
+/* Lets the player choose the character that clears the room.
+ *
+ * currentRoom: the challenge of the room that needs to be cleared
+ *
+ * returns: True if room is cleared successfully (there are still party members alive). False if TPK.
+ */
+export function clearRoom(currentRoom: Core.Challenge): boolean {
+	let chosenCharacter = Characters.Fighter; // TODO: change call to function that allows player to choose character
+	let resolutionText = resolveChallenge(chosenCharacter, currentRoom);
+
+	// TODO: display the resolutionText to player
+
+	// TODO: add check if there are still party members alive
+
+	return true;
+}
