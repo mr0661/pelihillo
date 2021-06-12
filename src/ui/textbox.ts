@@ -78,6 +78,9 @@ export class TextBox {
 	}
 
 	mouseClick(coords: Coord){
+		if (this.currentChoices.length == 0){
+			return 0;
+		}
 		let hoverChoice = this.getHoverChoice(coords);
 		this.hoverChoice = -1;
 		return hoverChoice;
