@@ -1,9 +1,10 @@
 import {Magical_Trap} from "./challenges/magical_trap";
 import {Dragon} from "./challenges/dragon";
+import {Full_Party_Doom} from "./challenges/doomroom";
 import {Challenge} from "./core";
 import * as Characters from "./character";
 
-const Challenges = [Magical_Trap, Dragon];
+const Challenges = [Magical_Trap, Dragon, Full_Party_Doom];
 
 export function getRandomChallenge(): Challenge {
 	return Challenges[Math.floor(Math.random() * (Challenges.length + 1))];
