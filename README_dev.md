@@ -28,8 +28,8 @@ SETUP:
       - Lisätään Runiin kääntämisen jälkeen steppi Run external tool
         - nimeä miten haluat: Browserify, (run browserify)
         - Program browserify.cmd
-        - Options: main.js --outfile bundle.js
-        - Working directory: $ProjectFileDir$\public
+        - Options: tmp/main.js --outfile public/bundle.js
+        - Working directory: $ProjectFileDir$/
         - Jos ei toimi, kokeile ajaa browserify.cmd komentorivillä, itsellä tämä toimi kyllä suorilta
 
 Workflow:
