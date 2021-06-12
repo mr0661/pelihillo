@@ -3,8 +3,18 @@ import {Dragon} from "./challenges/dragon";
 import {Full_Party_Doom} from "./challenges/doomroom";
 import {Challenge} from "./core";
 import * as Characters from "./character";
+import * as KeyRoom from "./challenges/keyroom";
 
 const Challenges = [Magical_Trap, Dragon, Full_Party_Doom];
+export const KeyRooms =
+[ KeyRoom.WoodenKeyRoom
+, KeyRoom.CopperKeyRoom
+, KeyRoom.BrassKeyRoom
+, KeyRoom.BronzeKeyRoom
+, KeyRoom.SilverKeyRoom
+, KeyRoom.GoldenKeyRoom
+, KeyRoom.PlatinumKeyRoom
+];
 
 export function getRandomChallenge(): Challenge {
 	return Challenges[Math.floor(Math.random() * (Challenges.length + 1))];
