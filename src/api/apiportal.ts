@@ -4,7 +4,7 @@ export async function getNotes(id: number){
 	return await getTexts(id);
 };
 
-export async function getNewNote(id: number){
+export async function postNewNote(id: number){
 	return await postNewText(id);
 };
 export async function upVoteNote(id: number, msg: string){
