@@ -10,8 +10,6 @@ const getTexts = async (id) => {
 
 // // Post new note by door ID.
 const postNewText = async (id, msg) => {
-	console.log('id', id)
-	console.log('msg', msg)
 	const res = await axios.post(`${noteURI}/${id}`, msg);
 	return res.data;
 };
