@@ -20,6 +20,20 @@ export class Challenge {
 
 	image: string; // Path to image? TODO: How are we determining images?
 
+	constructor
+	( strength_result : ActionResult
+	, precision_result: ActionResult
+	, smarts_result   : ActionResult
+	, craft_result    : ActionResult
+	, image           : string
+	) {
+		this.strength_result  = strength_result;
+		this.precision_result = precision_result;
+		this.smarts_result    = smarts_result;
+		this.craft_result     = craft_result;
+		this.image			  = image;
+	}
+
 	getResult(skill: Skill): ActionResult {
 		switch (skill) {
 			case Skill.Strength : return this.strength_result;
