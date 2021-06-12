@@ -25,6 +25,10 @@ export class Character {
 		--this.doom_track;
 		return (this.doom_track == 0);
 	}
+
+	loseHP(damage: number): void {
+		this.HP -= damage;
+	}
 }
 
 export let Fighter  = new Character(Skill.Strength );
