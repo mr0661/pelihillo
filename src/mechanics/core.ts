@@ -18,6 +18,8 @@ export class Challenge {
 	smarts_result:    ActionResult;
 	craft_result:     ActionResult;
 
+	image: string; // Path to image? TODO: How are we determining images?
+
 	getResult(skill: Skill): ActionResult {
 		switch (skill) {
 			case Skill.Strength : return this.strength_result;
