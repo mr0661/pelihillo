@@ -1,26 +1,7 @@
 import * as Core from "./core";
+import {Magical_Trap} from "./challenges/magical_trap";
 
-export class Magical_Trap extends Core.Challenge {
-strength_result:
-	{ damage: 10
-	, resolution: "The blunt force of the trap is absorbed by the goblin, making the room safe."
-	};
-
-precision_result:
-	{ damage: 2
-	, resolution: "TODO"
-	};
-
-smarts_result:
-	{ damage: 0
-	, resolution: "TODO"
-	};
-
-craft_result:
-	{ damage: 5
-	, resolution: "TODO"
-	};
-}
+export const Challenges = [Magical_Trap];
 
 export class Dragon extends Core.Challenge {
 strength_result:
