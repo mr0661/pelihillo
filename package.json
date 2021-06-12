@@ -1,0 +1,23 @@
+{
+  "name": "gmtk2021gamejam",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mr0661/pelihillo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mr0661/pelihillo/issues"
+  },
+  "homepage": "https://github.com/mr0661/pelihillo#readme"
+}

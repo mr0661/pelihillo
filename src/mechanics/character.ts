@@ -21,7 +21,7 @@ export class Character {
 
 	countdownToDoom(): boolean {
 		if (this.doom_track == undefined) return false;
-
+		if (this.doom_track == 0) return true;
 		--this.doom_track;
 		return (this.doom_track == 0);
 	}

@@ -2,10 +2,9 @@ import {UserInterface} from "./ui";
 import {SpriteName} from "./sprites";
 import {Animation, AnimationObject} from "./animation";
 import {clearRoom} from "../mechanics/gameplay";
-import {Challenge} from "../mechanics/core";
-import {Magical_Trap} from "../mechanics/challenges";
 import {TextDisplayObject} from "./interface";
 import * as Characters from "../mechanics/character";
+import {getRandomChallenge} from "../mechanics/challenges";
 
 class RoomTextObject{
 	text: string;
@@ -43,11 +42,11 @@ let currentText = 0;
 // Test room UI
 export function roomDemo(ui: UserInterface){
 
-	let room = new Challenge();
-	room.craft_result = { damage: 5, resolution: "Crafty, not"};
-	room.smarts_result = { damage: 5, resolution: "Smart, not"};
-	room.precision_result = { damage: 5, resolution: "Exact, not"};
-	room.strength_result = { damage: 5, resolution: "Smashy, yes"};
+	let room = getRandomChallenge();
+	//room.craft_result = { damage: 5, resolution: "Crafty, not"};
+	//room.smarts_result = { damage: 5, resolution: "Smart, not"};
+	//room.precision_result = { damage: 5, resolution: "Exact, not"};
+	//room.strength_result = { damage: 5, resolution: "Smashy, yes"};
 
 	clearRoom(room, function (res: boolean){
 		if (res){
