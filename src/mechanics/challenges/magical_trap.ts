@@ -23,6 +23,6 @@ let craft_result: Core.ActionResult =
 let image_loc  : string = "data/challenges/magical_trap.png";
 let description: string = "The party is faced with a strange device, emitting dangerous magical energy.";
 
-export let Magical_Trap = new Core.Challenge(
+export const Magical_Trap = new Core.Challenge(
 	strength_result, precision_result, smarts_result, craft_result, image_loc, description
 );
