@@ -1,4 +1,4 @@
-import {Coord} from "./coord";
+import {boxHit, Coord} from "./coord";
 
 export class TextBox {
 
@@ -16,8 +16,8 @@ export class TextBox {
 		// Temp
 		this.position = new Coord(0, 500);
 		this.choiceOffset = new Coord(0, 50);
-		this.currentText = "Test text to be drawn \n in a test text box";
-		this.currentChoices = ["Choice 1", "Choice 2"];
+		this.currentText = "";
+		this.currentChoices = [];
 		this.hoverChoice = -1;
 		this.margin = new Coord(50, 50);
 		this.choiceSize = new Coord(50, 50);
@@ -69,8 +69,7 @@ export class TextBox {
 	private getHoverChoice(coords: Coord): number{
 		for (let i = 0; i < this.currentChoices.length; i++) {
 			let pos: Coord = this.getChoicePos(i);
-			if (coords.y >= pos.y && coords.x >= pos.x
-				&& coords.y < pos.y + this.choiceSize.y && coords.x < pos.x + this.choiceSize.x){
+			if (boxHit(coords, pos, this.choiceSize)){
 				return i;
 			}
 		}
@@ -79,7 +78,7 @@ export class TextBox {
 
 	mouseClick(coords: Coord){
 		if (this.currentChoices.length == 0){
-			return 0;
+			return boxHit(coords, this.position, this.choiceSize.multiply(100)) ? 0 : -1;
 		}
 		let hoverChoice = this.getHoverChoice(coords);
 		this.hoverChoice = -1;

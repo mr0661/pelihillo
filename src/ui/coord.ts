@@ -16,3 +16,8 @@ export class Coord{
 	}
 
 }
+
+export function boxHit(testPos: Coord, boxPos: Coord, boxSize: Coord): boolean{
+	return testPos.x >= boxPos.x && testPos.y >= boxPos.y
+		&& testPos.x < boxPos.x + boxSize.x && testPos.y < boxPos.y + boxSize.y;
+}

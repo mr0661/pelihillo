@@ -20,7 +20,16 @@ export interface UserInterfaceInterface {
 	 * (If they can re-randomize with no gameplay effects, it can be randomized here.)
 	 * @param doorsOpen Array of length 3 (left-middle-right), True if open door, false if not
 	 * @param enemySprite Enemy sprite to display
+	 * @param callback Called when enter-room-animation is finished
 	 */
-	changeRoom(doorsOpen: Array<boolean>, enemySprite: SpriteName): void;
+	changeRoom(doorsOpen: Array<boolean>, enemySprite: SpriteName, callback: () => void): void;
 
+	/**
+	 * Ask user for text input.
+	 * @param prompt Leading text to ask for input
+	 * @param baseText Base text inside input box, can be erased
+	 * @param maxLen Maximum input character count
+	 * @param callback Called with the input text when finished
+	 */
+	inputText(prompt: string, baseText: string, maxLen: number, callback: (text: string) => void): void;
 }

@@ -11,17 +11,14 @@ export enum SpriteName{
 	CHAR_2_BACK,
 	CHAR_3_BACK,
 	CHAR_4_BACK,
-	CHAR_5_BACK, // Add more / less if needed
 	CHAR_1_FRONT,
 	CHAR_2_FRONT,
 	CHAR_3_FRONT,
 	CHAR_4_FRONT,
-	CHAR_5_FRONT, // Add more / less if needed
 	CHAR_1_DEAD, // Back, ded
 	CHAR_2_DEAD,
 	CHAR_3_DEAD,
 	CHAR_4_DEAD,
-	CHAR_5_DEAD, // Add more / less if needed
 	ENEMY_QUESTIONABLE
 }
 
@@ -36,13 +33,10 @@ let SPRITE_URLS = [
 	"char1_back.png",
 	"char1_back.png",
 	"char1_back.png",
-	"char1_back.png",
 	"char1_front.png",
 	"char1_front.png",
 	"char1_front.png",
 	"char1_front.png",
-	"char1_front.png",
-	"char1_dead.png",
 	"char1_dead.png",
 	"char1_dead.png",
 	"char1_dead.png",

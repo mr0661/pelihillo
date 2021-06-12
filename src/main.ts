@@ -2,6 +2,7 @@ import * as fun from "./functions"
 import {UserInterface} from "./ui/ui";
 import {Coord} from "./ui/coord";
 import {addListeners} from "./ui/inputs";
+import {roomDemo} from "./ui/room_demo";
 
 const CANVAS_ID = "canvas";
 
@@ -16,10 +17,7 @@ function main(CANVAS_ID: string) {
 	canvas.height = HEIGHT;
 
 	addListeners(canvas, ui);
-
-	ui.display("Choose one", ["Option 1", "Option 2"], undefined, function(ix){
-		console.log("Chose option " + (ix + 1));
-	});
+	roomDemo(ui);
 	// Set main loop
 	setInterval(mainCycle, CYCLE_MS, canvas);
 }
@@ -35,6 +33,7 @@ function mainCycle(canvas: HTMLCanvasElement) {
 	ctx.fillStyle = "#" + (colorCode) + (colorCode) + (colorCode);
 	ctx.fillStyle = "#333333";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ui.update();
 	ui.draw(ctx, new Coord(canvas.width, canvas.height));
 	iteration++;
 }
