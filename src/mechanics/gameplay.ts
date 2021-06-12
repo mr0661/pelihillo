@@ -3,6 +3,7 @@ import * as Challenge from "./challenges";
 import * as Core from "./core";
 import * as UI from "../ui/ui_def";
 import {AnimationObject} from "../ui/animation";
+import {TextDisplayObject} from "../ui/interface";
 
 /* Resolve challenge. Gets the challenge resolution based on character's skill, and makes the character lose
  * HP accordingly.
@@ -26,8 +27,14 @@ export function resolveChallenge(character: Characters.Character, challenge: Cor
  */
 export function clearRoom(currentRoom: Core.Challenge, callback: (boolean) => void): void {
 
-	// Todo: names, disable dead options
-	const characterNames = ["Fighter", "Ranger", "Thinker", "Tinkerer"];
+	// Todo: names, proper aliveness check
+	const characterNames = [
+		new TextDisplayObject("Fighter", "Choose Fighter", !Characters.Fighter.HP),
+		new TextDisplayObject("Ranger", "Choose Ranger", !Characters.Ranger.HP),
+		new TextDisplayObject("Thinker", "Choose Thinker", !Characters.Thinker.HP),
+		new TextDisplayObject("Tinkerer", "Choose Tinkerer", !Characters.Tinkerer.HP)
+	];
+
 	const characters = [Characters.Fighter, Characters.Ranger, Characters.Thinker, Characters.Tinkerer];
 
 	const chooseText = "Choose your character";

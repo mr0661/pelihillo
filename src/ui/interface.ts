@@ -1,6 +1,18 @@
 import {AnimationObject} from "./animation";
 import {SpriteName} from "./sprites";
 
+export class TextDisplayObject{
+	text: string;
+	disable: boolean;
+	hoverText: string;
+	constructor(text: string, hoverText: string, disable?: boolean) {
+		this.text = text;
+		this.hoverText = hoverText;
+		this.disable = disable;
+	}
+}
+
+
 export interface UserInterfaceInterface {
 
 	/**
@@ -13,7 +25,7 @@ export interface UserInterfaceInterface {
 	 * @param callback Will call this function on user input with the index of the selected choice
 	 *                 or 0 if no choices supplied when ready to continue.
 	 */
-	display(text: string, choices: Array<string>, anim: AnimationObject | undefined, callback: (choiceIndex: number) => void);
+	display(text: string, choices: Array<TextDisplayObject>, anim: AnimationObject | undefined, callback: (choiceIndex: number) => void);
 
 	/**
 	 * Enter a new room. If rooms should be of consistent but different visuals, add an argument here.
