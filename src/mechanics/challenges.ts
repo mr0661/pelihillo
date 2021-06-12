@@ -1,4 +1,3 @@
-import * as Core from "./core";
 import {Magical_Trap} from "./challenges/magical_trap";
 import {Dragon} from "./challenges/dragon";
 
