@@ -27,20 +27,29 @@ router.get('/notes/:id', (req, res, next) => {
         });
 });
 
-// Post new note
+// Post new note and delete lowest (if there are 3 notes already).
 router.post('/notes/:id', (req, res, next) => {
     const id = req.params.id;
-    const newNote = {door_id: 12, up: 0, down: 0, note: req.body.note};
+    const newNote = {door_id: req.params.id, up: 0, down: 0, note: req.body.note};
     knex.select('note_id', 'door_id', knex.raw('(up + down) as points')).from('notes').where('door_id', id).orderBy('points', 'desc')
         .then(notes => {
-            knex('notes').where('note_id', notes[notes.length - 1].note_id).del().then(delBoolean => {
-                knex('notes').insert(newNote)
-                    .then(added => {
-                        res.status(200).json("ok");
-                    })
-            }).catch(err => {
-                res.status(500).json({error: 'Database error while getting request.'});
-            });
+            if(notes.length >= 3) {
+                knex('notes').where('note_id', notes[notes.length - 1].note_id).del().then(delBoolean => {
+                    knex('notes').insert(newNote).then(added => {
+                            res.status(200).json("ok");
+                    }).catch(err => {
+                            res.status(500).json({error: 'Database error while getting request.'});
+                    });
+                }).catch(err => {
+                    res.status(500).json({error: 'Database error while getting request.'});
+                });
+            } else {
+                knex('notes').insert(newNote).then(added => {
+                    res.status(200).json("ok");
+                }).catch(err => {
+                        res.status(500).json({error: 'Database error while getting request.'});
+                });
+            };
         }).catch(err => {
         res.status(500).json({error: 'Database error while getting request.'});
     });
