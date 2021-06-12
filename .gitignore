@@ -3,3 +3,4 @@ public/tsc.js
 *.js.map
 node_modules
 knexfile.js
+.env
