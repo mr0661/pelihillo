@@ -55,4 +55,24 @@ router.post('/notes/:id', (req, res, next) => {
     });
 });
 
+// Upvote / downvote note.
+router.patch('/notes/:id', (req, res, next) => {
+    const id = req.params.id;
+    if(req.body.up === true){
+        knex('notes').where('note_id', id).increment({up: 1}).then(upVoted => {
+            res.status(200).json("ok");
+        }).catch(err => {
+                res.status(500).json({error: 'Database error while upvoting.'});
+        });
+    } else if (req.body.down === true) {
+        knex('notes').where('note_id', id).decrement({down: 1}).then(downVoted => {
+            res.status(200).json("ok");
+        }).catch(err => {
+                res.status(500).json({error: 'Database error while downvoting.'});
+        });
+    } else {
+        res.status(400).json({error: 'Unknown command.'});
+    };
+});
+
 module.exports = router;
