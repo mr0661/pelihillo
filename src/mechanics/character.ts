@@ -28,6 +28,6 @@ export class Character {
 }
 
 export let Fighter  = new Character(Skill.Strength );
-export let Rogue    = new Character(Skill.Precision);
+export let Ranger   = new Character(Skill.Precision);
 export let Thinker  = new Character(Skill.Smarts   );
 export let Tinkerer = new Character(Skill.Craft    );
