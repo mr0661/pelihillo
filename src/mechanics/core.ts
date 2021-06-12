@@ -6,3 +6,26 @@ export enum Skill
 , Smarts
 , Craft
 }
+
+export interface ActionResult {
+	damage: number;
+	resolution: string;
+}
+
+export class Challenge {
+	strength_result:  ActionResult;
+	precision_result: ActionResult;
+	smarts_result:    ActionResult;
+	craft_result:     ActionResult;
+
+	getResult(skill: Skill): ActionResult {
+		switch (skill) {
+			case Skill.Strength : return this.strength_result;
+			case Skill.Precision: return this.precision_result;
+			case Skill.Smarts   : return this.smarts_result;
+			case Skill.Craft    : return this.craft_result;
+		}
+	}
+}
+
+
