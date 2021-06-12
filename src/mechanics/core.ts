@@ -7,6 +7,39 @@ export enum Skill
 , Craft
 }
 
+export enum Key
+{ None
+, Wood
+, Copper
+, Brass
+, Bronze
+, Silver
+, Gold
+, Platinum
+};
+
+class Keys_Obtained_Class {
+	private Key: Key;
+
+	constructor() {
+		this.Key = Key.None;
+	}
+
+	resetKeys(): void {
+		this.Key = Key.None;
+	}
+
+	setKey(new_key: Key): void {
+		this.Key = new_key;
+	}
+
+	getKey(): Key {
+		return this.Key;
+	}
+}
+
+export let Keys_Obtained = new Keys_Obtained_Class();
+
 export interface ActionResult {
 	damage: number;
 	resolution: string;
