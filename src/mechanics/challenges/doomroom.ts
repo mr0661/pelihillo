@@ -53,7 +53,3 @@ class Full_Party_Doom_Room extends Core.Challenge {
 export const Full_Party_Doom = new Full_Party_Doom_Room(
 	strength_result, precision_result, smarts_result, craft_result, image_loc, description
 );
-
-export function doomOneCharacter(time_to_doom: number, character: Characters.Character): void {
-	if (character.HP > 0) character.setDoom(time_to_doom);
-}
