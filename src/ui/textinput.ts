@@ -10,14 +10,14 @@ export class TextInput{
 		this.box = <HTMLTextAreaElement>document.createElement("TextArea");
 		this.box.style.fontSize = "30px";
 		this.box.maxLength = maxLen;
-		this.box.innerHTML = baseText;
+		this.box.value = baseText;
 		//this.box.style.display = "none";
 		this.position();
 		document.body.appendChild(this.box);
 	}
 
 	getText(): string{
-		return this.box.innerHTML;
+		return this.box.value;
 	}
 
 	delete(): void{

@@ -1,6 +1,8 @@
 import * as Characters from "./character";
 import * as Challenge from "./challenges";
 import * as Core from "./core";
+import * as UI from "../ui/ui_def";
+import {AnimationObject} from "../ui/animation";
 
 /* Resolve challenge. Gets the challenge resolution based on character's skill, and makes the character lose
  * HP accordingly.
@@ -20,15 +22,26 @@ export function resolveChallenge(character: Characters.Character, challenge: Cor
  *
  * currentRoom: the challenge of the room that needs to be cleared
  *
- * returns: True if room is cleared successfully (there are still party members alive). False if TPK.
+ * callback: called with True if room is cleared successfully (there are still party members alive). False if TPK.
  */
-export function clearRoom(currentRoom: Core.Challenge): boolean {
-	let chosenCharacter = Characters.Fighter; // TODO: change call to function that allows player to choose character
-	let resolutionText = resolveChallenge(chosenCharacter, currentRoom);
+export function clearRoom(currentRoom: Core.Challenge, callback: (boolean) => void): void {
 
-	// TODO: display the resolutionText to player
+	// Todo: names, disable dead options
+	const characterNames = ["Fighter", "Ranger", "Thinker", "Tinkerer"];
+	const characters = [Characters.Fighter, Characters.Ranger, Characters.Thinker, Characters.Tinkerer];
 
-	// TODO: add check if there are still party members alive
+	const chooseText = "Choose your character";
 
-	return true;
+	UI.ui.display(chooseText, characterNames, undefined, function(ix: number){
+		let chosenCharacter = characters[ix];
+		let resolutionText = resolveChallenge(chosenCharacter, currentRoom);
+		let anim = new AnimationObject();
+		anim.action(ix);
+		UI.ui.updateCharacterStatus(characters);
+		UI.ui.display(resolutionText, [], anim, function(ix: number){
+			// TODO: add check if there are still party members alive
+			callback(true);
+		});
+
+	});
 }

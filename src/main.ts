@@ -3,6 +3,7 @@ import {UserInterface} from "./ui/ui";
 import {Coord} from "./ui/coord";
 import {addListeners} from "./ui/inputs";
 import {roomDemo} from "./ui/room_demo";
+import {ui} from "./ui/ui_def"
 
 const CANVAS_ID = "canvas";
 
@@ -23,7 +24,6 @@ function main(CANVAS_ID: string) {
 }
 
 let iteration: number = 0;
-let ui: UserInterface = new UserInterface();
 
 function mainCycle(canvas: HTMLCanvasElement) {
 	let ctx: CanvasRenderingContext2D = canvas.getContext("2d");

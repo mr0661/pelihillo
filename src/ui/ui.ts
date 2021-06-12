@@ -1,11 +1,11 @@
 import {Drawer, SpriteName} from "./sprites";
 import {Coord} from "./coord";
 import {UserInterfaceInterface} from "./interface";
-import {Animation, AnimationObject, RoomAnimation} from "./animation";
+import {Animation, AnimationObject, RoomAnimation, CHARACTER_COUNT} from "./animation";
 import {TextBox} from "./textbox";
 import {TextInput} from "./textinput";
+import {Character} from "../mechanics/character";
 
-const CHARACTER_COUNT = 4;
 
 export enum Screen {
 	ROOM,
@@ -28,6 +28,7 @@ export class UserInterface implements UserInterfaceInterface {
 	displaySet: number;
 
 	// Text input callback
+
 	textCallback: (text: string) => void;
 
 	// Room animation callback
@@ -82,6 +83,7 @@ export class UserInterface implements UserInterfaceInterface {
 		if (this.animation){
 			this.animation.roomAnimation = RoomAnimation.ROOM_ENTER;
 		}
+		this.animation.reset();
 		this.displaySet = Date.now();
 		this.doorsOpen = doorsOpen;
 		this.enemySprite = enemySprite;
@@ -102,6 +104,10 @@ export class UserInterface implements UserInterfaceInterface {
 		this.textInput = new TextInput(baseText, maxLen);
 		this.textCallback = callback;
 		this.textBox.newText(prompt, []);
+	}
+
+	updateCharacterStatus(chars: Array<Character>){
+		// Todo
 	}
 
 	update(): void{
@@ -205,6 +211,7 @@ export class UserInterface implements UserInterfaceInterface {
 		}
 
 	}
+
 
 	mouseClick(coords: Coord) {
 		let res: number = this.textBox.mouseClick(coords);
