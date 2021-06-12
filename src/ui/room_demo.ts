@@ -2,7 +2,7 @@ import {UserInterface} from "./ui";
 import {SpriteName} from "./sprites";
 import {Animation, AnimationObject} from "./animation";
 import {clearRoom} from "../mechanics/gameplay";
-import {Challenges} from "../mechanics/challenges";
+import {getRandomChallenge} from "../mechanics/challenges";
 
 class RoomTextObject{
 	text: string;
@@ -33,7 +33,7 @@ let currentText = 0;
 // Test room UI
 export function roomDemo(ui: UserInterface){
 
-	let room = Challenges[0];
+	let room = getRandomChallenge();
 	//room.craft_result = { damage: 5, resolution: "Crafty, not"};
 	//room.smarts_result = { damage: 5, resolution: "Smart, not"};
 	//room.precision_result = { damage: 5, resolution: "Exact, not"};

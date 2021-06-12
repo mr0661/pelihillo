@@ -1,4 +1,9 @@
 import {Magical_Trap} from "./challenges/magical_trap";
 import {Dragon} from "./challenges/dragon";
+import {Challenge} from "./core";
 
-export const Challenges = [Magical_Trap, Dragon];
+const Challenges = [Magical_Trap, Dragon];
+
+export function getRandomChallenge(): Challenge {
+	return Challenges[Math.floor(Math.random() * (Challenges.length + 1))];
+}
