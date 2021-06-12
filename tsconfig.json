@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "module": "system",
-    "target": "es5",
+    "module": "commonjs",
     "sourceMap": true,
-    "outFile": "public/tsc.js"
+    "target": "es5",
+    "outDir": "./public/"
   },
   "exclude": [
     "node_modules"
   ],
-  "files": ["src/main.ts"],
+  "files": [
+    "src/main.ts",
+    "src/functions.ts"
+  ]
 }

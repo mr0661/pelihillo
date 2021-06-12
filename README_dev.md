@@ -16,6 +16,21 @@ SETUP:
     - valitse Automatic
     - Paina hiiren 2. oikealla tiedostoon "tslint.json" ja valitse (listan alhaalta) "Apply TSLint code style rules"
     - Nyt voit painaa "Ctrl + Alt + L" automaattisesti formatoidaksesi koodin (Linuxissa saatat joutua uudelleen mappaamaan tämän)
+6. Lisäsäätöjä browserify:ta varten, tämä yhdistelee paketteja yhdeksi, systemjs:n käyttö oli hankalampaa
+    - Ladataan paketti "browserify":
+      - File->Settings->Languages & Frameworks->Node.js and NPM
+      - Valitse '+' 
+      - Etsi paketti nimeltä "browserify"
+      - Valitse checkbox "Options:" ja kirjoita "-g" (asennetaan paketti globaalisti)
+      - Asenna
+   - Lisätään browserify käsky:
+      - Valitse Edit Configuration **oikealta** ylhäältä (itsellä lukee siinä aluksi että Run)
+      - Lisätään Runiin kääntämisen jälkeen steppi Run external tool
+        - nimeä miten haluat: Browserify, (run browserify)
+        - Program browserify.cmd
+        - Options: main.js --outfile bundle.js
+        - Working directory: $ProjectFileDir$\public
+        - Jos ei toimi, kokeile ajaa browserify.cmd komentorivillä, itsellä tämä toimi kyllä suorilta
 
 Workflow:
 
