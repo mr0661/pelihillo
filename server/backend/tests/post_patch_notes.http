@@ -1,0 +1,43 @@
+### Post new note for Door ID 1 ###
+POST http://localhost:3001/api/notes/1 HTTP/1.1
+content-type: application/json
+
+    {
+        "note": "My first note!"
+    }
+
+
+####### ####### ####### ####### #######
+
+
+### Post new note for Door ID 12 ###
+POST http://localhost:3001/api/notes/12 HTTP/1.1
+content-type: application/json
+
+    {
+        "note": "As wind blows by, I feel cold :S"
+    }
+
+
+####### ####### ####### ####### #######
+
+
+### Upvote Note ID 1 ###
+PATCH http://localhost:3001/api/notes/1 HTTP/1.1
+content-type: application/json
+
+    {
+        "up": true
+    }
+
+
+####### ####### ####### ####### #######
+
+
+### Downvote Note ID 1 ###
+PATCH http://localhost:3001/api/notes/1 HTTP/1.1
+content-type: application/json
+
+    {
+        "down": true
+    }
