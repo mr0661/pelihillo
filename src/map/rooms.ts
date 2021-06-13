@@ -1,4 +1,9 @@
-import {Note} from "../api/apiportal";
+// import {Note} from "../api/apiportal";
+
+export interface Note{
+	id: number;
+	message: string;
+};
 
 const ROOMS_DEBUG: boolean = true;
 

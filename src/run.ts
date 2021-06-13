@@ -8,7 +8,8 @@ import {TextDisplayObject} from "./ui/interface";
 import {doomCountdown, getRandomChallenge, KeyRooms} from "./mechanics/challenges";
 import {Full_Party_Doom} from "./mechanics/challenges/doomroom";
 import {AnimationObject} from "./ui/animation";
-import {downVoteNote, Note, upVoteNote} from "./api/apiportal";
+//import {downVoteNote, Note, postNewNote, upVoteNote} from "./api/apiportal";
+import {Note} from "./map/rooms"
 
 const RUN_DEBUG: boolean = true;
 
@@ -18,6 +19,7 @@ let g_currentRoom: map.Room;
 let g_nextRooms: map.NextRooms;
 let g_isMessageAvailable: boolean;
 let g_currentChallenge: Challenge;
+let g_currentDoor: number;
 let g_messages_on_doors: Array<Note> = new Array<Note>();
 
 function isMessageAvailable(): boolean {
@@ -67,7 +69,7 @@ const BACK = 3;
 const TEXT = 3;
 const CANCEL = 4;
 
-const MAX_TEXT_LENGTH = 255;
+const MAX_TEXT_LENGTH = 25;
 
 function joinMessages(messages: Array<Note>): string {
 	let joined: string = "";
@@ -85,6 +87,10 @@ function chooseRoom(): void {
 	const front: TextDisplayObject = new TextDisplayObject("Front", joinMessages(getMessage(g_currentRoom, g_nextRooms.front)), g_nextRooms.front == map.BLOCKED_ROOM);
 	const right: TextDisplayObject = new TextDisplayObject("Right", joinMessages(getMessage(g_currentRoom, g_nextRooms.right)), g_nextRooms.right == map.BLOCKED_ROOM);
 	const leave: TextDisplayObject = new TextDisplayObject("Leave Message", "", isMessageAvailable());
+	if (left.disable && front.disable && right.disable) {
+		gameEnd("The goblins find that their only exit back has been locked. They do not have all the required 7 keys. They will surely starve to death!");
+		return;
+	}
 	ui.display("Where you want to go", [left, front, right, leave], new AnimationObject(), roomSelect);
 }
 
@@ -117,6 +123,11 @@ function selectRoomToLeaveNote(index: number): void {
 	if (RUN_DEBUG) {
 		console.log("selectRoomToLeaveNote: start");
 	}
+	if (index == LEFT) g_currentDoor = getDoorId(g_currentRoom, g_nextRooms.left);
+	if (index == RIGHT) g_currentDoor = getDoorId(g_currentRoom, g_nextRooms.right);
+	if (index == FRONT) g_currentDoor = getDoorId(g_currentRoom, g_nextRooms.front);
+	if (index == BACK) g_currentDoor = getDoorId(g_currentRoom, g_nextRooms.back);
+
 	if (index == CANCEL) {
 		chooseRoom();
 	}
@@ -124,7 +135,7 @@ function selectRoomToLeaveNote(index: number): void {
 }
 
 function saveText(text: string): void {
-	// TODO send text on door
+	// postNewNote(g_currentDoor, text); // TODO no return value handling, perhaps it went through
 	chooseRoom();
 }
 
@@ -214,15 +225,15 @@ function voteNotes(index: number): void {
 	if (RUN_DEBUG) {
 		console.log("voteNotes: start");
 	}
+	const message: Note = g_messages_on_doors.pop();
 	if (index == 0 || index == 1) {
 		g_votes_given++;
-		const message: Note = g_messages_on_doors.pop();
 		if (index == 0) {
-			console.log("up vote:", message.message, message.id);
+			console.log("up vote:", message.message, message.id); // TODO use actual instead
 			// upVoteNote(message.id); // TODO no return value handling, perhaps it went through
 		}
 		if (index == 1) {
-			console.log("down vote:", message.message, message.id);
+			console.log("down vote:", message.message, message.id);  // TODO use actual instead
 			// downVoteNote(message.id); // TODO no return value handling, perhaps it went through
 		}
 	}
