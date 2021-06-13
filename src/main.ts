@@ -4,6 +4,7 @@ import {Coord} from "./ui/coord";
 import {addListeners} from "./ui/inputs";
 import {roomDemo} from "./ui/room_demo";
 import {ui} from "./ui/ui_def"
+import {startGame} from "./run"
 
 const CANVAS_ID = "canvas";
 
@@ -18,9 +19,13 @@ function main(CANVAS_ID: string) {
 	canvas.height = HEIGHT;
 
 	addListeners(canvas, ui);
-	roomDemo(ui);
+	console.log("AAAA")
+	startGame()
+	// roomDemo(ui);
+
 	// Set main loop
 	setInterval(mainCycle, CYCLE_MS, canvas);
+
 }
 
 let iteration: number = 0;
