@@ -82,7 +82,7 @@ let SPRITE_URLS = [
 	"ooze_green.png",
 	"ooze_red.png",
 	"ooze_yellow.png",
-	"lohikaarme_generic.png", // TODO add graphics (DOOM_ROOM
+	"kuolemanhuone.png",
 	"kaappi_ja_varjot1.png",
 	"kaappi_ja_varjot2.png",
 	"kaappi_ja_varjot3.png",
