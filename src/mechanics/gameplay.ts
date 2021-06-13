@@ -5,6 +5,13 @@ import * as UI from "../ui/ui_def";
 import {AnimationObject} from "../ui/animation";
 import {TextDisplayObject} from "../ui/interface";
 
+export function resetCharacters(): void {
+	Characters.Fighter.resetCharacter();
+	Characters.Ranger.resetCharacter();
+	Characters.Thinker.resetCharacter();
+	Characters.Tinkerer.resetCharacter();
+}
+
 /* Resolve challenge. Gets the challenge resolution based on character's skill, and makes the character lose
  * HP accordingly.
  *
