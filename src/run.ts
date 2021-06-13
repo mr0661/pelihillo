@@ -9,7 +9,8 @@ import {doomCountdown, getRandomChallenge, KeyRooms} from "./mechanics/challenge
 import {Full_Party_Doom} from "./mechanics/challenges/doomroom";
 import {AnimationObject} from "./ui/animation";
 //import {downVoteNote, Note, postNewNote, upVoteNote} from "./api/apiportal";
-import {Note} from "./map/rooms"
+import {Note} from "./map/rooms";
+import {Fighter, Ranger, Thinker, Tinkerer} from "./mechanics/character";
 
 const RUN_DEBUG: boolean = true;
 
@@ -23,17 +24,14 @@ let g_currentDoor: number;
 let g_messages_on_doors: Array<Note> = new Array<Note>();
 
 function isMessageAvailable(): boolean {
-	// TODO add more interesting logic
-	return g_isMessageAvailable;
+	return g_isMessageAvailable && (Fighter.HP <= 0 || Ranger.HP <= 0 || Thinker.HP <= 0 || Tinkerer.HP <= 0);
 }
 
 function setMessageUsed(): void {
-	// TODO add more interesting logic
 	g_isMessageAvailable = false;
 }
 
 function resetMessageUsed(): void {
-	// TODO add more interesting logic
 	g_isMessageAvailable = true;
 }
 
@@ -59,7 +57,7 @@ export function startGame(): void {
 	console.log("startGame: start " + roomIndex.toString());
 	g_currentRoom = g_startRoom;
 	g_nextRooms = dropIntoRoom(map.ROOMS[45], g_currentRoom);
-	ui.changeRoom([true, true, true], SpriteName.NO_SPRITE, chooseRoom);
+	ui.changeRoom([false, false, false], SpriteName.NO_SPRITE, chooseRoom);
 }
 
 const LEFT = 0;
@@ -136,6 +134,7 @@ function selectRoomToLeaveNote(index: number): void {
 
 function saveText(text: string): void {
 	// postNewNote(g_currentDoor, text); // TODO no return value handling, perhaps it went through
+	setMessageUsed();
 	chooseRoom();
 }
 
@@ -147,7 +146,7 @@ function enterRoom(): void {
 	const leftOpen = g_nextRooms.left != map.BLOCKED_ROOM;
 	const frontOpen = g_nextRooms.front != map.BLOCKED_ROOM;
 	const rightOpen = g_nextRooms.right != map.BLOCKED_ROOM;
-	let openRooms: Array<boolean> = [leftOpen, frontOpen, rightOpen];
+	let closedRooms: Array<boolean> = [!leftOpen, !frontOpen, !rightOpen];
 
 	let challengeSprite: SpriteName;
 	if (g_currentRoom == g_startRoom) {
@@ -191,7 +190,7 @@ function enterRoom(): void {
 		g_currentChallenge = getRandomChallenge();
 		challengeSprite = g_currentChallenge.getImage();
 	}
-	ui.changeRoom(openRooms, challengeSprite, roomCombat);
+	ui.changeRoom(closedRooms, challengeSprite, roomCombat);
 }
 
 function roomCombat(): void {

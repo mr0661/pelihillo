@@ -1,6 +1,6 @@
 // import {Note} from "../api/apiportal";
 
-export interface Note{
+export interface Note {
 	id: number;
 	message: string;
 };
@@ -202,10 +202,10 @@ function resetMessageText(): void {
 	}
 	g_messages.length = 0;
 	for (let i: number = 0; i < ROOMS.length * 4; i++) {
-		// TODO get actual messages from actual server
-		g_messages.push([
-			{id: 1, message: "This door should have message " + Math.floor(i / 4).toString()},
-			{id: 2, message: "No message here " + (i % 4).toString()}]);
+		const messages: Array<Note> = [
+			{id: 50, message: "This door should have message " + Math.floor(i / 4).toString()}];
+		// const message = getNotes(i); // TODO Add this back remove previous stuff
+		g_messages.push(messages);
 	}
 }
 
