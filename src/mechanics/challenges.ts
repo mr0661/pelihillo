@@ -26,7 +26,7 @@ export const KeyRooms =
 	];
 
 export function getRandomChallenge(): Challenge {
-	return Challenges[0];
+	return Challenges[Math.floor(Math.random() * Challenges.length)];
 }
 
 export function doomCountdown(): boolean {
