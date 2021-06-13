@@ -1,7 +1,7 @@
 import {ui} from "./ui/ui_def";
 import {SpriteName} from "./ui/sprites";
 import {clearRoom, resetCharacters} from "./mechanics/gameplay";
-import {Challenge, Keys_Obtained} from "./mechanics/core";
+import {Challenge, Key, Keys_Obtained} from "./mechanics/core";
 import * as map from "./map/rooms";
 import {dropIntoRoom, getMessage} from "./map/rooms";
 import {TextDisplayObject} from "./ui/interface";
@@ -175,8 +175,8 @@ function enterRoom(): void {
 
 function roomCombat(): void {
 	if (g_currentRoom == g_startRoom) {
-		// TODO special handling for start room
-		roomCombatResolved(true);
+		if (Keys_Obtained.getKey() == Key.Platinum) gameEnd("You escaped the dungeon!");
+		else roomCombatResolved(true);
 	} else if (map.isRoomCleared(g_currentRoom)) {
 		roomCombatResolved(true);
 	} else {
