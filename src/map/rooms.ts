@@ -196,7 +196,7 @@ function resetMessageText(): void {
 	g_messages.length = 0;
 	for (let i: number = 0; i < ROOMS.length * 4; i++) {
 		// TODO get actual messages from actual server
-		g_messages.push(["This door should have message", "No message here"]);
+		g_messages.push(["This door should have message " + Math.floor(i / 4).toString(), "No message here " + (i % 4).toString()]);
 	}
 	console.log("resetMessageText: " + g_messages.length);
 }
@@ -209,10 +209,10 @@ export function reset(): void {
 
 export function getMessage(from: Room, to: Room): string[] {
 	if (ROOMS_DEBUG) {
-		console.log("getMessage: " + getDoorId(from, to).toString(), +"/" + g_messages.length);
+		console.log("getMessage: " + getDoorId(from, to).toString() + "/" + g_messages.length);
 	}
 	// TODO get actual message
-	return ["No message", "You should try leaving one"];
+	return g_messages[getDoorId(from, to)];
 }
 
 
@@ -286,7 +286,7 @@ export function getDoorId(from: Room, to: Room): number {
 	if (yDiff == 1) {
 		directionVal = 3;
 	}
-	return (from.x * 10 + from.y) << 2 + directionVal;
+	return ((from.x * 10 + from.y) << 2) + directionVal;
 }
 
 function resolveEnterStrategy(from: Room, up: Room, down: Room, left: Room, right: Room, normal: NextRooms, enter: EnterStrategy): NextRooms {
