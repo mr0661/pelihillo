@@ -42,6 +42,7 @@ export class AnimationObject{
 				this.characterAnimations.push(oldAnims[i]);
 			}
 		}
+		this.enemyAnimation = Animation.IDLE;
 	}
 
 	// Make characterIx'th character action mode, keep rest as they are

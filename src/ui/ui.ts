@@ -54,6 +54,8 @@ export class UserInterface implements UserInterfaceInterface {
 	hps: Array<number>
 	inputMode: InputMode;
 
+	wasAction: boolean;
+
 	constructor() {
 		this.drawer = new Drawer();
 		this.screen = Screen.ROOM;
@@ -72,6 +74,7 @@ export class UserInterface implements UserInterfaceInterface {
 		}
 		this.wallColor = "#333";
 		this.inputMode = InputMode.INPUT_MOUSE;
+		this.wasAction = false;
 	}
 
 	/**
@@ -85,11 +88,25 @@ export class UserInterface implements UserInterfaceInterface {
 	 *                 or 0 if no choices supplied.
 	 */
 	display(text: string, choices: Array<TextDisplayObject>, anim: AnimationObject | undefined, callback: (choiceIndex: number) => void) {
-		this.animation = anim || this.animation;
+		if (anim){
+			if (anim.enemyAnimation){
+				this.animation.enemyAnimation = anim.enemyAnimation;
+			}
+			this.animation.roomAnimation = anim.roomAnimation;
+			this.animation.characterAnimations = anim.characterAnimations;
+		}
+
 		this.actionCallback = callback;
 		this.textBox.newText(text, choices);
 		this.displaySet = Date.now();
 		this.animation.roomAnimation = RoomAnimation.NONE;
+		this.wasAction = false;
+
+		for (let i = 0; i < this.animation.characterAnimations.length; i++) {
+			if (this.animation.characterAnimations[i] == Animation.ACTION){
+				this.wasAction = true;
+			}
+		}
 	}
 
 	/**
@@ -114,6 +131,7 @@ export class UserInterface implements UserInterfaceInterface {
 		this.enemySprite = enemySprite;
 		this.roomCallback = callback;
 		this.wallColor = this.randomWallColor();
+		this.wasAction = false;
 	}
 
 	/**
@@ -143,6 +161,10 @@ export class UserInterface implements UserInterfaceInterface {
 				this.animation.roomAnimation = RoomAnimation.NONE;
 				this.roomCallback();
 			}
+		}
+		if (this.wasAction && this.animationElapsed(FLASH_DURATION) == 1){
+			this.animation.enemyAnimation = Animation.DEAD;
+			this.wasAction = false;
 		}
 
 		const delta = 0.2;
@@ -295,7 +317,7 @@ export class UserInterface implements UserInterfaceInterface {
 			}
 		}
 
-		if (this.animation.enemyAnimation != Animation.IDLE){
+		if (this.animation.enemyAnimation != Animation.DEAD && !useOld){
 			if(!isAction || Math.floor(time/20) % 2 == 0){
 				const posScale = this.getBgPosition(canvasSize);
 				const pos = posScale.pos;

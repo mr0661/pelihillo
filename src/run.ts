@@ -7,6 +7,7 @@ import {dropIntoRoom, getMessage} from "./map/rooms";
 import {TextDisplayObject} from "./ui/interface";
 import {doomCountdown, getRandomChallenge, KeyRooms} from "./mechanics/challenges";
 import {Full_Party_Doom} from "./mechanics/challenges/doomroom";
+import {AnimationObject} from "./ui/animation";
 
 const RUN_DEBUG: boolean = true;
 
@@ -76,7 +77,7 @@ function chooseRoom(): void {
 	const front: TextDisplayObject = new TextDisplayObject("Front", joinMessages(getMessage(g_currentRoom, g_nextRooms.front)), g_nextRooms.front == map.BLOCKED_ROOM);
 	const right: TextDisplayObject = new TextDisplayObject("Right", joinMessages(getMessage(g_currentRoom, g_nextRooms.right)), g_nextRooms.right == map.BLOCKED_ROOM);
 	const leave: TextDisplayObject = new TextDisplayObject("Leave Message", "", isMessageAvailable());
-	ui.display("Where you want to go", [left, front, right, leave], undefined, roomSelect);
+	ui.display("Where you want to go", [left, front, right, leave], new AnimationObject(), roomSelect);
 }
 
 function roomSelect(index: number): void {
@@ -89,7 +90,7 @@ function roomSelect(index: number): void {
 			new TextDisplayObject("Front", joinMessages(getMessage(g_currentRoom, g_nextRooms.front)), true),
 			new TextDisplayObject("Right", joinMessages(getMessage(g_currentRoom, g_nextRooms.right)), true),
 			new TextDisplayObject("Back", joinMessages(getMessage(g_currentRoom, g_nextRooms.back)), true),
-			new TextDisplayObject("Cancel", "", true)], undefined, selectRoomToLeaveNote);
+			new TextDisplayObject("Cancel", "", true)], new AnimationObject(), selectRoomToLeaveNote);
 	} else {
 		// Move to new room
 		const nextRoom = index == LEFT ? g_nextRooms.left : index == FRONT ? g_nextRooms.front : g_nextRooms.right;
