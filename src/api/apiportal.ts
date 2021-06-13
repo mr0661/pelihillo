@@ -3,10 +3,19 @@ import { getTexts, postNewText, upVoteText, downVoteText } from './api.js';
 export interface Note{
 	id: number;
 	message: string;
-}
+};
 
 export async function getNotes(id: number){
-	return await getTexts(id);
+	let notes: Array<Note> = new Array<Note>();
+	let respond = await getTexts(id);
+	respond.map(oneNote => {
+		let note: Note = {
+			id: oneNote.id,
+			message: oneNote.note
+		};
+		notes.push(note);
+	})
+	return notes;
 };
 
 export async function postNewNote(id: number, msg: string){

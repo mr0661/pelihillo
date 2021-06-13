@@ -1,5 +1,5 @@
 ============================
-> Readme for server side code.
+> Readme for server side code. Not complete work nor supposed to be.
 
 # Table of Contents
 
