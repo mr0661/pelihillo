@@ -1,6 +1,6 @@
 import {UserInterface} from "./ui";
 import {SpriteName} from "./sprites";
-import {Animation, AnimationObject} from "./animation";
+import {Animation, AnimationObject, CHARACTER_COUNT} from "./animation";
 import {clearRoom} from "../mechanics/gameplay";
 import {getRandomChallenge} from "../mechanics/challenges";
 import {Challenge} from "../mechanics/core";
@@ -56,11 +56,18 @@ export function roomDemo(ui: UserInterface){
 			});
 		}
 	});
+	const characters = [Characters.Fighter, Characters.Ranger, Characters.Thinker, Characters.Tinkerer];
 
 	function follows(ix: number){
 		let next = currentText + 1;
 		if (ROOM_INTRO[currentText].follows.length != 0){
 			next = ROOM_INTRO[currentText].follows[ix];
+		}
+
+		if (ROOM_INTRO[next].choices.length == CHARACTER_COUNT){
+			for (let i = 0; i < CHARACTER_COUNT; i++){
+				ROOM_INTRO[next].choices[i].disable = characters[i].HP < 0.1;
+			}
 		}
 
 		let anims = new AnimationObject();

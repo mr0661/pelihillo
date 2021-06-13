@@ -1,6 +1,7 @@
 import {Coord} from "./coord";
 
 export enum SpriteName{
+	NO_SPRITE,
 	ROOM_BG,
 	DOOR_LEFT_OPEN,
 	DOOR_MIDDLE_OPEN,
@@ -20,10 +21,12 @@ export enum SpriteName{
 	CHAR_2_DEAD,
 	CHAR_3_DEAD,
 	CHAR_4_DEAD,
+	HPBAR,
 	ENEMY_QUESTIONABLE
 }
 
 let SPRITE_URLS = [
+	"empty.png",
 	"room.png",
 	"door1_open.png",
 	"door2_open.png",
@@ -43,6 +46,7 @@ let SPRITE_URLS = [
 	"char1_dead.png",
 	"char1_dead.png",
 	"char1_dead.png",
+	"hp.png",
 	"enemy1.png"
 ];
 
@@ -103,6 +107,19 @@ class Drawer{
 		let image: HTMLImageElement = this.sprites[spriteName];
 		let imageSize = new Coord(image.width, image.height);
 		context.drawImage(image, position.x, position.y, scale.x * imageSize.x, scale.y * imageSize.y);
+	}
+
+	drawSpriteHorizontalClipped(context: CanvasRenderingContext2D, spriteName: SpriteName,
+	                            position: Coord, scale: Coord, clipXRatio: number){
+
+		// Skip if sprite images don't exist
+		if (!this.allSpritesLoaded()){
+			return;
+		}
+		let image: HTMLImageElement = this.sprites[spriteName];
+		let imageSize = new Coord(image.width, image.height);
+		context.drawImage(image, 0, 0, clipXRatio * imageSize.x, imageSize.y,
+			position.x, position.y, scale.x * imageSize.x * clipXRatio, scale.y * imageSize.y);
 	}
 
 

@@ -5,6 +5,43 @@ const BASE_CHOICE_SIZE = 50;
 export const BASE_TEXTBOX_HEIGHT = 300;
 export const TEXTBOX_VERT_RATIO = 0.2;
 
+
+
+function drawMultiline(context: CanvasRenderingContext2D, text: string,
+                       pos: Coord, maxWidth: number, lineHeight: number){
+
+	const lines = text.split('\n');
+	for (let i = 0; i < lines.length; i++){
+		pos.y += wrapTextBlock(context, lines[i], pos.copy(), maxWidth, lineHeight);
+	}
+
+	function wrapTextBlock(context: CanvasRenderingContext2D, text: string,
+	                  pos: Coord, maxWidth: number, lineHeight: number) {
+		const words = text.split(' ');
+		let line = '';
+
+		for(let n = 0; n < words.length; n++) {
+			let testLine = line + words[n] + ' ';
+			let metrics = context.measureText(testLine);
+			let testWidth = metrics.width;
+			if (testWidth > maxWidth && n > 0) {
+				context.fillText(line, pos.x, pos.y);
+				line = words[n] + ' ';
+				pos.y += lineHeight;
+			}
+			else {
+				line = testLine;
+			}
+		}
+		context.fillText(line, pos.x, pos.y);
+		return pos.y + lineHeight;
+	}
+
+
+}
+
+
+
 export class TextBox {
 
 	position: Coord;
@@ -17,6 +54,7 @@ export class TextBox {
 	currentChoices: Array<TextDisplayObject>;
 
 	hoverChoice: number;
+	keyHoverChoice: number;
 
 	constructor() {
 		// Temp
@@ -25,6 +63,7 @@ export class TextBox {
 		this.currentText = "";
 		this.currentChoices = [];
 		this.hoverChoice = -1;
+		this.keyHoverChoice = -1;
 		this.margin = new Coord(50, 50);
 		this.choiceSize = new Coord(50, 50);
 		this.size = new Coord(0, 0);
@@ -55,7 +94,10 @@ export class TextBox {
 		const fontSize = Math.floor(40 * scale.x);
 		context.font = fontSize + "px Times New Roman";
 		context.fillStyle = "#333";
-		context.fillText(text, this.position.x + this.margin.x, this.position.y + this.margin.y);
+
+		let mainPos = new Coord(this.position.x + this.margin.x, this.position.y + this.margin.y);
+		drawMultiline(context, text, mainPos, this.size.x - this.margin.x * 2, fontSize);
+
 		const boxHeight = this.choiceSize.y;
 
 		let choicesOffset = this.choiceOffset.copy();
@@ -76,7 +118,8 @@ export class TextBox {
 			let hoverText = this.currentChoices[this.hoverChoice].hoverText;
 			context.font = fontSize + "px Times New Roman";
 			context.fillStyle = "#333";
-			context.fillText(hoverText, this.position.x + this.margin.x + this.size.x * 0.5, this.position.y + this.margin.y);
+			let tpos = new Coord(this.position.x + this.margin.x + this.size.x * 0.5, this.position.y + this.margin.y);
+			drawMultiline(context, hoverText, tpos, this.size.x * 0.5 - this.margin.x * 2, fontSize);
 
 		}
 
