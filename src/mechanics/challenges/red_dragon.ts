@@ -21,7 +21,7 @@ let craft_result: Core.ActionResult =
 };
 
 let image_loc  : string = "data/challenges/dragon.png";
-let description: string = "The party encounters a fearsome red dragon. A scale can be seen missing from the dragon's body";
+let description: string = "The party encounters a fearsome red dragon. A scale can be seen missing from the dragon's body.";
 
 export const Red_Dragon = new Core.Challenge(
 	strength_result, precision_result, smarts_result, craft_result, image_loc, description
