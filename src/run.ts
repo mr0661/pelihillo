@@ -8,8 +8,7 @@ import {TextDisplayObject} from "./ui/interface";
 import {doomCountdown, getRandomChallenge, KeyRooms} from "./mechanics/challenges";
 import {Full_Party_Doom} from "./mechanics/challenges/doomroom";
 import {AnimationObject} from "./ui/animation";
-//import {downVoteNote, Note, postNewNote, upVoteNote} from "./api/apiportal";
-import {Note} from "./map/rooms";
+import {downVoteNote, Note, postNewNote, upVoteNote} from "./api/apiportal";
 import {Fighter, Ranger, Thinker, Tinkerer} from "./mechanics/character";
 
 const RUN_DEBUG: boolean = true;
@@ -133,7 +132,7 @@ function selectRoomToLeaveNote(index: number): void {
 }
 
 function saveText(text: string): void {
-	// postNewNote(g_currentDoor, text); // TODO no return value handling, perhaps it went through
+	postNewNote(g_currentDoor, text); // TODO no return value handling, perhaps it went through
 	setMessageUsed();
 	chooseRoom();
 }
@@ -229,11 +228,11 @@ function voteNotes(index: number): void {
 		g_votes_given++;
 		if (index == 0) {
 			console.log("up vote:", message.message, message.id); // TODO use actual instead
-			// upVoteNote(message.id); // TODO no return value handling, perhaps it went through
+			upVoteNote(message.id); // TODO no return value handling, perhaps it went through
 		}
 		if (index == 1) {
 			console.log("down vote:", message.message, message.id);  // TODO use actual instead
-			// downVoteNote(message.id); // TODO no return value handling, perhaps it went through
+			downVoteNote(message.id); // TODO no return value handling, perhaps it went through
 		}
 	}
 	if (g_votes_given > 3 || index == 3) {

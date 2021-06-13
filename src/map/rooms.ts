@@ -1,9 +1,4 @@
-// import {Note} from "../api/apiportal";
-
-export interface Note {
-	id: number;
-	message: string;
-};
+import {Note, getNotes} from "../api/apiportal";
 
 const ROOMS_DEBUG: boolean = true;
 
@@ -196,16 +191,17 @@ let g_messages: Array<Array<Note>> = new Array<Array<Note>>();
 let g_roadsTravelled: RoadTravelled[] = new Array<RoadTravelled>();
 let g_roomsCleared: Room[] = new Array<Room>();
 
-function resetMessageText(): void {
+async function resetMessageText() {
 	if (ROOMS_DEBUG) {
 		console.log("resetMessageText: start");
 	}
 	g_messages.length = 0;
 	for (let i: number = 0; i < ROOMS.length * 4; i++) {
-		const messages: Array<Note> = [
-			{id: 50, message: "This door should have message " + Math.floor(i / 4).toString() + ", " + Math.floor(i % 4).toString()}];
-		// const message = getNotes(i); // TODO Add this back remove previous stuff
-		g_messages.push(messages);
+		let messages = getNotes(i); // TODO Add this back remove previous stuff
+		messages.then(function(asd){
+			g_messages.push(asd);
+		})
+		await messages;
 	}
 }
 

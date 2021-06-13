@@ -1,4 +1,4 @@
-import { getTexts, postNewText, upVoteText, downVoteText } from './api.js';
+import { getTexts, postNewText, upVoteText, downVoteText } from './api';
 
 export interface Note{
 	id: number;
