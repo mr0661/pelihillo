@@ -7,8 +7,15 @@ import * as KeyRoom from "./challenges/keyroom";
 import {Red_Dragon} from "./challenges/red_dragon";
 import {Blue_Dragon} from "./challenges/blue_dragon";
 import {Green_Dragon} from "./challenges/green_dragon";
+import {Red_Ooze} from "./challenges/red_ooze";
+import {Yellow_Ooze} from "./challenges/yellow_ooze";
+import {Blue_Ooze} from "./challenges/blue_ooze";
+import {Green_Ooze} from "./challenges/green_ooze";
 
-const Challenges = [Magical_Trap, Yellow_Dragon, Red_Dragon, Blue_Dragon, Green_Dragon, Full_Party_Doom];
+const Challenges = [Magical_Trap
+	, Yellow_Dragon, Red_Dragon, Blue_Dragon, Green_Dragon
+	, Yellow_Ooze  , Red_Ooze  , Blue_Ooze  , Green_Ooze
+	, Full_Party_Doom];
 export const KeyRooms =
 [ KeyRoom.WoodenKeyRoom
 , KeyRoom.CopperKeyRoom
