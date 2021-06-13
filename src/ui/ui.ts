@@ -236,9 +236,18 @@ export class UserInterface implements UserInterfaceInterface {
 		let defaultStart = posScale.pos.x + 50 * scale;
 		let elapsed = this.animationElapsed(ROOM_ENTER_DURATION);
 
-		let offset = elapsed < 0.25 || this.animation.roomAnimation != RoomAnimation.ROOM_ENTER ?
-			new Coord(defaultStart, offsetY) :
-			new Coord(defaultStart - (1000 - this.animationElapsed(ROOM_ENTER_DURATION)) * scale, offsetY);
+		let offset = new Coord(defaultStart, offsetY);
+		if (this.animation.roomAnimation == RoomAnimation.ROOM_ENTER){
+			if (elapsed < 0.25){
+				offset = new Coord(defaultStart + (this.animationElapsed(ROOM_ENTER_DURATION) * 3800) * scale, offsetY);
+
+			}
+			else{
+				offset = new Coord(defaultStart - (750 -
+					750 * this.animationElapsed(ROOM_ENTER_DURATION)) * scale, offsetY);
+			}
+		}
+
 
 		for (let i = 0; i < CHARACTER_COUNT; i++) {
 			let state: Animation = this.animation.characterAnimations.length > i ?
