@@ -9,7 +9,7 @@ export const getTexts = async (id: number) => {
 };
 
 // Post new note by door ID.
-export const postNewText = async (id: number, msg: string) => {
+export const postNewText = async (id: number, msg: object) => {
 	const res = await axios.post(`${noteURI}/${id}`, msg);
 	return res.data;
 };
