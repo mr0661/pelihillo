@@ -54,7 +54,7 @@ class KeyRoom extends Core.Challenge {
 			return {damage: 0, resolution: "The goblin was able to obtain the " + this.KeyName.name + " key."};
 		}
 
-		return {damage: 0, resolution: "The goblin couldn't obtain the " + this.KeyName.name + "key."}
+		return {damage: 0, resolution: "The goblin couldn't obtain the " + this.KeyName.name + " key."}
 	}
 }
 
