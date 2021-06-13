@@ -7,7 +7,7 @@ const knex = require('knex')(options);
 // Get all notes from given door, ordered by total points.
 router.get('/notes/:id', (req, res, next) => {
     const id = req.params.id;
-    knex.select('*', knex.raw('(up + down) as points')).from('notes').where('door_id', id).orderBy('points', 'desc')
+    knex.select('note_id as id', 'door_id', 'note', knex.raw('(up + down) as points')).from('notes').where('door_id', id).orderBy('points', 'desc')
         .then(notes => {
             res.status(200).json(notes);
         })
@@ -25,18 +25,18 @@ router.post('/notes/:id', (req, res, next) => {
             if(notes.length >= 3) {
                 knex('notes').where('note_id', notes[notes.length - 1].note_id).del().then(delBoolean => {
                     knex('notes').insert(newNote).then(added => {
-                            res.status(200).json("New note posted.");
+                        res.status(204).end();
                     }).catch(err => {
-                            res.status(500).json({error: 'Database error while getting request.'});
+                        res.status(500).json({error: 'Database error while getting request.'});
                     });
                 }).catch(err => {
                     res.status(500).json({error: 'Database error while getting request.'});
                 });
             } else {
                 knex('notes').insert(newNote).then(added => {
-                    res.status(200).json("New note posted.");
+                    res.status(204).end();
                 }).catch(err => {
-                        res.status(500).json({error: 'Database error while getting request.'});
+                    res.status(500).json({error: 'Database error while getting request.'});
                 });
             };
         }).catch(err => {
@@ -47,21 +47,31 @@ router.post('/notes/:id', (req, res, next) => {
 // Upvote note.
 router.patch('/notes/up/:id', (req, res, next) => {
     const id = req.params.id;
+    knex('notes').where('note_id', id).then(note => {
+        if(note[0].up >= 50) { return res.status(204).end(); }
         knex('notes').where('note_id', id).increment({up: 1}).then(upVoted => {
-            res.status(200).json("Note has been upvoted.");
+            res.status(204).end();
         }).catch(err => {
-                res.status(500).json({error: 'Database error while upvoting.'});
+            res.status(500).json({error: 'Database error while upvoting.'});
         });
+    }).catch(err => {
+        res.status(500).json({error: 'Database error while upvoting.'});
+    });
 });
 
 // Downvote note.
 router.patch('/notes/down/:id', (req, res, next) => {
     const id = req.params.id;
+    knex('notes').where('note_id', id).then(note => {
+        if(note[0].down <= -50) { return res.status(204).end(); }
         knex('notes').where('note_id', id).decrement({down: 1}).then(downVoted => {
-            res.status(200).json("Note has been downvoted.");
+            res.status(204).end();
         }).catch(err => {
-                res.status(500).json({error: 'Database error while downvoting.'});
+            res.status(500).json({error: 'Database error while downvoting.'});
         });
+    }).catch(err => {
+        res.status(500).json({error: 'Database error while upvoting.'});
+    });
 });
 
 module.exports = router;
