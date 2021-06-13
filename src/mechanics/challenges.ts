@@ -11,9 +11,10 @@ import {Red_Ooze} from "./challenges/red_ooze";
 import {Yellow_Ooze} from "./challenges/yellow_ooze";
 import {Blue_Ooze} from "./challenges/blue_ooze";
 import {Green_Ooze} from "./challenges/green_ooze";
+import {GhostSpider} from "./challenges/ghost_spider";
 
 const Challenges = [Yellow_Dragon, Red_Dragon, Blue_Dragon, Green_Dragon, Purple_Dragon
-	, Yellow_Ooze, Red_Ooze, Blue_Ooze, Green_Ooze
+	, Yellow_Ooze, Red_Ooze, Blue_Ooze, Green_Ooze, GhostSpider
 ];
 export const KeyRooms =
 	[KeyRoom.WoodenKeyRoom

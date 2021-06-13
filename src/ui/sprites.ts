@@ -47,8 +47,7 @@ export enum SpriteName {
 	KEY_5,
 	KEY_6,
 	KEY_7,
-	MAGICAL_TRAP
-
+	GHOST_SPIDER
 }
 
 let SPRITE_URLS = [
@@ -98,6 +97,7 @@ let SPRITE_URLS = [
 	"avain5.png",
 	"avain6.png",
 	"avain7.png",
+	"ghost_spider.png"
 ];
 
 export class Drawer {

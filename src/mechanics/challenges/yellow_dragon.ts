@@ -3,12 +3,12 @@ import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 5
-, resolution: "TODO"
+, resolution: "The goblin utilizes dragons weakness by attacking only from one side. Battle is fierce, but eventually dragon draws its last breath."
 };
 
 let precision_result: Core.ActionResult =
 { damage: 10
-, resolution: "TODO"
+, resolution: "The goblin aims and releases. However, dragons scales are not that easily pierced. The fate of the goblin is sealed. Others decide to move forward while dragon is distracted."
 };
 
 let smarts_result: Core.ActionResult =

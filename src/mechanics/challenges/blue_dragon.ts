@@ -8,7 +8,7 @@ let strength_result: Core.ActionResult =
 
 let precision_result: Core.ActionResult =
 { damage: 7
-, resolution: "TODO"
+, resolution: "Both launch their attacks at the same time! Arrow pierces dragons eye. Sadly dragons attack is also very strong."
 };
 
 let smarts_result: Core.ActionResult =
@@ -18,7 +18,7 @@ let smarts_result: Core.ActionResult =
 
 let craft_result: Core.ActionResult =
 { damage: 5
-, resolution: "TODO"
+, resolution: "The goblin promises to build a magical instrument as tribute for the dragon. Dragon accepts the tribute. The goblin has to pour a lot of blood to make it actually magical."
 };
 
 let image_loc  : SpriteName = SpriteName.BLUE_DRAGON;
