@@ -38,7 +38,7 @@ const NORMAL: Movement = {
 	fromRight: EnterStrategy.NORMAL
 };
 
-enum RoomAction {
+export enum RoomAction {
 	NORMAL, KEY1, KEY2, KEY3, KEY4, KEY5, KEY6, KEY7, REDRUM, RANDOM, BLOCKED
 }
 
@@ -185,15 +185,15 @@ interface RoadTravelled {
 	room2: Room;
 }
 
-let g_messages: Array<Array<string>>;
-let g_roadsTravelled: RoadTravelled[];
-let g_roomsCleared: Room[];
+let g_messages: Array<Array<string>> = new Array<Array<string>>();
+let g_roadsTravelled: RoadTravelled[] = new Array<RoadTravelled>();
+let g_roomsCleared: Room[] = new Array<Room>();
 
 function resetMessageText(): void {
 	if (ROOMS_DEBUG) {
 		console.log("resetMessageText: start");
 	}
-	g_messages = [];
+	g_messages.length = 0;
 	for (let i: number = 0; i < ROOMS.length * 4; i++) {
 		// TODO get actual messages from actual server
 		g_messages.push(["This door should have message", "No message here"]);
@@ -201,13 +201,10 @@ function resetMessageText(): void {
 	console.log("resetMessageText: " + g_messages.length);
 }
 
-function resetRoadsTravelled(): void {
-	g_roadsTravelled = [];
-}
-
 export function reset(): void {
 	resetMessageText();
-	resetRoadsTravelled();
+	g_roadsTravelled.length = 0;
+	g_roomsCleared.length = 0;
 }
 
 export function getMessage(from: Room, to: Room): string[] {
