@@ -4,3 +4,5 @@ public/tsc.js
 node_modules
 knexfile.js
 .env
+/tmp
+/public/*.js
