@@ -37,18 +37,22 @@ export function clearRoom(currentRoom: Core.Challenge, callback: (boolean) => vo
 
 	const characters = [Characters.Fighter, Characters.Ranger, Characters.Thinker, Characters.Tinkerer];
 
-	const chooseText = "Choose your character";
+	const chooseText = "Choose your character:";
+	const preText = currentRoom.getDescription();
 
-	UI.ui.display(chooseText, characterNames, undefined, function (ix: number) {
-		let chosenCharacter = characters[ix];
-		let resolutionText = resolveChallenge(chosenCharacter, currentRoom);
-		let anim = new AnimationObject();
-		anim.action(ix);
-		UI.ui.updateCharacterStatus(characters);
-		UI.ui.display(resolutionText, [], anim, function (ix: number) {
-			// TODO: add check if there are still party members alive
-			callback(true);
+	UI.ui.display(preText, [], undefined, function(ix: number){
+		UI.ui.display(chooseText, characterNames, undefined, function (ix: number) {
+			let chosenCharacter = characters[ix];
+			let resolutionText = resolveChallenge(chosenCharacter, currentRoom);
+			let anim = new AnimationObject();
+			anim.action(ix);
+			UI.ui.updateCharacterStatus(characters);
+			UI.ui.display(resolutionText, [], anim, function (ix: number) {
+				// TODO: add check if there are still party members alive
+				callback(true);
+			});
+
 		});
-
 	});
+
 }
