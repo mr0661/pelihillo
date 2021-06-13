@@ -276,12 +276,13 @@ export class UserInterface implements UserInterfaceInterface {
 				this.animation.characterAnimations[i] : Animation.IDLE;
 
 			if (state == Animation.IDLE) {
-				let pos: Coord = new Coord(i * 200 * posScale.scale.x, 0).add(offset);
+				let pos: Coord = new Coord((i * 330 + 100) * posScale.scale.x,
+					posScale.bgSize.y - 500 * scale).add(offset);
 				pos.y -= this.drawer.getSpriteSize(SpriteName.CHAR_1_BACK + i, scale).y;
 				const frame = state == Animation.IDLE ? 0 : 2;
 				this.drawer.drawSprite(context,
 					SpriteName.CHAR_1_BACK + CHARACTER_COUNT * frame + i,
-					pos, posScale.scale);
+					posScale.pos.add(new Coord(0, 200 * scale)), posScale.scale);
 				this.drawHP(context, i, pos, posScale.scale.x);
 			}
 		}

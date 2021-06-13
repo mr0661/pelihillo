@@ -47,6 +47,7 @@ export enum SpriteName {
 	KEY_5,
 	KEY_6,
 	KEY_7,
+	MAGICAL_TRAP
 
 }
 
@@ -59,10 +60,10 @@ let SPRITE_URLS = [
 	"door1_closed.png",
 	"door2_closed.png",
 	"door3_closed.png",
-	"char1_back.png",
-	"char1_back.png",
-	"char1_back.png",
-	"char1_back.png",
+	"fighter_1.png",
+	"archer.png",
+	"shaman.png",
+	"tinker.png",
 	"char1_front.png",
 	"char1_front.png",
 	"char1_front.png",
@@ -78,10 +79,10 @@ let SPRITE_URLS = [
 	"lohikaarme_red.png",
 	"lohikaarme_purple.png",
 	"lohikaarme_yellow.png",
-	"ooze_blue.png", // TODO add graphics (BLUE_OOZE) (currently generic)
-	"ooze_green.png", // TODO add graphics (GREEN_OOZE) (currently generic)
-	"ooze_red.png", // TODO add graphics (RED_OOZE) (currently generic)
-	"ooze_yellow.png", // TODO add graphics (YELLOW_OOZE) (currently generic)
+	"ooze_blue.png",
+	"ooze_green.png",
+	"ooze_red.png",
+	"ooze_yellow.png",
 	"lohikaarme_generic.png", // TODO add graphics (DOOM_ROOM
 	"kaappi_ja_varjot1.png",
 	"kaappi_ja_varjot2.png",
