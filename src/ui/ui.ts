@@ -385,7 +385,9 @@ export class UserInterface implements UserInterfaceInterface {
 			this.textInput = undefined;
 		}
 		else if (actionCode != -1 && this.actionCallback) {
-			this.actionCallback(actionCode);
+			let callback = this.actionCallback;
+			this.actionCallback = undefined;
+			callback(actionCode);
 		}
 	}
 
