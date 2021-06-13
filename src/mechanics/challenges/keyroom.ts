@@ -24,13 +24,13 @@ let silver_image_loc  : SpriteName = SpriteName.BOX_5;
 let golden_image_loc  : SpriteName = SpriteName.BOX_6;
 let platinum_image_loc: SpriteName = SpriteName.BOX_7;
 
-let wooden_description  : string = "TODO";
-let copper_description  : string = "TODO";
-let brass_description   : string = "TODO";
-let bronze_description  : string = "TODO";
-let silver_description  : string = "TODO";
-let golden_description  : string = "TODO";
-let platinum_description: string = "TODO";
+let wooden_description  : string = "There's a wooden key sitting on a shelf.";
+let copper_description  : string = "There's a wooden box. A copper key can be seen within it.";
+let brass_description   : string = "There's a copper box. A brass key can be seen within it.";
+let bronze_description  : string = "There's a brass box. A bronze key can be seen within it.";
+let silver_description  : string = "There's a bronze box. A silver key can be seen within it.";
+let golden_description  : string = "There's a silver box. A golden key can be seen within it.";
+let platinum_description: string = "There's a golden box. A platinum key can be seen within it.";
 
 class KeyRoom extends Core.Challenge {
 	readonly KeyName: KeyName;
