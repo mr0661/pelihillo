@@ -1,5 +1,10 @@
 import { getTexts, postNewText, upVoteText, downVoteText } from './api.js';
 
+export interface Note{
+	id: number;
+	message: string;
+}
+
 export async function getNotes(id: number){
 	return await getTexts(id);
 };
