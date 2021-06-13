@@ -6,7 +6,7 @@ import * as map from "./map/rooms";
 import {BLOCKED_ROOM, dropIntoRoom, getMessage} from "./map/rooms";
 import {TextDisplayObject} from "./ui/interface";
 import {RoomAnimation} from "./ui/animation";
-import {getRandomChallenge, KeyRooms} from "./mechanics/challenges";
+import {doomCountdown, getRandomChallenge, KeyRooms} from "./mechanics/challenges";
 import {Full_Party_Doom} from "./mechanics/challenges/doomroom";
 
 const RUN_DEBUG: boolean = true;
@@ -132,7 +132,6 @@ function roomCombat(): void {
 		// TODO special handling for start room
 		roomCombatResolved(true);
 	} else if (map.isRoomCleared(g_currentRoom)) {
-		// TODO We need empty clear room to handle sudden death tracer?
 		roomCombatResolved(true);
 	} else if (g_currentRoom.strategy.action == map.RoomAction.NORMAL) {
 		clearRoom(getRandomChallenge(), roomCombatResolved);
@@ -160,6 +159,8 @@ function roomCombat(): void {
 }
 
 function roomCombatResolved(aliveCharacters: boolean): void {
+	if (!doomCountdown()) aliveCharacters = false; // TODO: Special logic
+
 	if (RUN_DEBUG) {
 		console.log("roomCombatResolved: start");
 	}
