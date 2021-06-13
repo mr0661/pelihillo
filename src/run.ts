@@ -198,14 +198,13 @@ function roomCombatResolved(aliveCharacters: boolean): void {
 	if (RUN_DEBUG) {
 		console.log("roomCombatResolved: start");
 	}
-	if (!doomCountdown()) {
-		console.log("DOOMED!");
-		gameEnd("The curse has claimed the party, killing everyone.");
-		return;
-	}
+
 	if (!aliveCharacters) {
 		console.log("Game end!");
 		gameEnd("Your party has fallen.");
+	} else if (!doomCountdown()) {
+		console.log("DOOMED!");
+		gameEnd("The curse has claimed the party, killing everyone.");
 	} else {
 		chooseRoom();
 	}
