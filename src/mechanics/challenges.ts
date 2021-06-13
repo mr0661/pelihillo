@@ -1,11 +1,14 @@
 import {Magical_Trap} from "./challenges/magical_trap";
-import {Dragon} from "./challenges/dragon";
+import {Yellow_Dragon} from "./challenges/yellow_dragon";
 import {Full_Party_Doom} from "./challenges/doomroom";
 import {Challenge} from "./core";
 import * as Characters from "./character";
 import * as KeyRoom from "./challenges/keyroom";
+import {Red_Dragon} from "./challenges/red_dragon";
+import {Blue_Dragon} from "./challenges/blue_dragon";
+import {Green_Dragon} from "./challenges/green_dragon";
 
-const Challenges = [Magical_Trap, Dragon, Full_Party_Doom];
+const Challenges = [Magical_Trap, Yellow_Dragon, Red_Dragon, Blue_Dragon, Green_Dragon, Full_Party_Doom];
 export const KeyRooms =
 [ KeyRoom.WoodenKeyRoom
 , KeyRoom.CopperKeyRoom
