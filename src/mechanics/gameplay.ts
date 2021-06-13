@@ -29,23 +29,23 @@ export function clearRoom(currentRoom: Core.Challenge, callback: (boolean) => vo
 
 	// Todo: names, proper aliveness check
 	const characterNames = [
-		new TextDisplayObject("Fighter", "Choose Fighter", !Characters.Fighter.HP),
-		new TextDisplayObject("Ranger", "Choose Ranger", !Characters.Ranger.HP),
-		new TextDisplayObject("Thinker", "Choose Thinker", !Characters.Thinker.HP),
-		new TextDisplayObject("Tinkerer", "Choose Tinkerer", !Characters.Tinkerer.HP)
+		new TextDisplayObject("Fighter", "Choose Fighter", Characters.Fighter.HP <= 0),
+		new TextDisplayObject("Ranger", "Choose Ranger", Characters.Ranger.HP <= 0),
+		new TextDisplayObject("Thinker", "Choose Thinker", Characters.Thinker.HP <= 0),
+		new TextDisplayObject("Tinkerer", "Choose Tinkerer", Characters.Tinkerer.HP <= 0)
 	];
 
 	const characters = [Characters.Fighter, Characters.Ranger, Characters.Thinker, Characters.Tinkerer];
 
 	const chooseText = "Choose your character";
 
-	UI.ui.display(chooseText, characterNames, undefined, function(ix: number){
+	UI.ui.display(chooseText, characterNames, undefined, function (ix: number) {
 		let chosenCharacter = characters[ix];
 		let resolutionText = resolveChallenge(chosenCharacter, currentRoom);
 		let anim = new AnimationObject();
 		anim.action(ix);
 		UI.ui.updateCharacterStatus(characters);
-		UI.ui.display(resolutionText, [], anim, function(ix: number){
+		UI.ui.display(resolutionText, [], anim, function (ix: number) {
 			// TODO: add check if there are still party members alive
 			callback(true);
 		});
