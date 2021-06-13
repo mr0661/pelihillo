@@ -7,17 +7,17 @@ import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 1
-, resolution: "TODO"
+, resolution: "Strong pushes to ooze seem to be enough to move ooze far enough so it is no longer a threat. It tickles."
 };
 
 let precision_result: Core.ActionResult =
 { damage: 2
-, resolution: "TODO"
+, resolution: "Shooting ooze into vital spot seemed like good idea, but it just caused it to explode. Luckily you did not use more force than that."
 };
 
 let smarts_result: Core.ActionResult =
 { damage: 3
-, resolution: "TODO"
+, resolution: "The goblin throws magical energy to ooze. Ooze blows up in huge explosion."
 };
 
 let craft_result: Core.ActionResult =

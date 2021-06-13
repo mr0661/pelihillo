@@ -7,12 +7,12 @@ import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 2
-, resolution: "TODO"
+, resolution: "Touching ooze with the weapon seems to backfire as ooze quickly start to move though the weapon it and burns the goblins skin. After much running and hitting, ooze dies."
 };
 
 let precision_result: Core.ActionResult =
 { damage: 3
-, resolution: "TODO"
+, resolution: "Good shot into ooze doesn't seem to do anything. Ooze advances towards the goblin. After much running and screaming, ooze no longer moves."
 };
 
 let smarts_result: Core.ActionResult =
@@ -22,7 +22,7 @@ let smarts_result: Core.ActionResult =
 
 let craft_result: Core.ActionResult =
 { damage: 1
-, resolution: "TODO"
+, resolution: "Goblin starts to close in the Ooze. Ooze spits at goblin burning its skip. The goblin takes from their blanket and throws it over the ooze. Ooze doesn't seem aggressive any more."
 };
 
 let image_loc: SpriteName = SpriteName.YELLOW_OOZE;

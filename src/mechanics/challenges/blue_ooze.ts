@@ -7,7 +7,7 @@ import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 3
-, resolution: "TODO"
+, resolution: "The goblin delivers magnificent blow killing ooze with one hit. However, toxic matter from ooze spews onto the goblin"
 };
 
 let precision_result: Core.ActionResult =
@@ -16,13 +16,13 @@ let precision_result: Core.ActionResult =
 };
 
 let smarts_result: Core.ActionResult =
-{ damage: 1
-, resolution: "TODO"
+{ damage: 0
+, resolution: "The goblin pours water on the ground. Ooze naturally starts to follow where water goes."
 };
 
 let craft_result: Core.ActionResult =
 { damage: 2
-, resolution: "TODO"
+, resolution: "The goblin closes carefully ooze and smashes it. Sadly, not careful enough as some ooze matter touches the goblins skin."
 };
 
 let image_loc  : SpriteName = SpriteName.BLUE_OOZE;

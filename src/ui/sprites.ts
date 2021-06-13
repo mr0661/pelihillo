@@ -29,10 +29,10 @@ export enum SpriteName {
 	PURPLE_DRAGON,  // TODO add this enemy!
 	YELLOW_DRAGON,
 	BLUE_OOZE,
-	DOOM_ROOM,
 	GREEN_OOZE,
 	RED_OOZE,
 	YELLOW_OOZE,
+	DOOM_ROOM,
 	MAGICAL_TRAP
 }
 
@@ -64,11 +64,11 @@ let SPRITE_URLS = [
 	"lohikaarme_red.png",
 	"lohikaarme_purple.png",
 	"lohikaarme_yellow.png",
-	"lohikaarme_generic.png", // TODO add graphics (BLUE_OOZE)
+	"ooze_blue.png", // TODO add graphics (BLUE_OOZE) (currently generic)
+	"ooze_green.png", // TODO add graphics (GREEN_OOZE) (currently generic)
+	"ooze_red.png", // TODO add graphics (RED_OOZE) (currently generic)
+	"ooze_yellow.png", // TODO add graphics (YELLOW_OOZE) (currently generic)
 	"lohikaarme_generic.png", // TODO add graphics (DOOM_ROOM
-	"lohikaarme_generic.png", // TODO add graphics (GREEN_OOZE)
-	"lohikaarme_generic.png", // TODO add graphics (RED_OOZE)
-	"lohikaarme_generic.png", // TODO add graphics (YELLOW_OOZE)
 	"lohikaarme_generic.png", // TODO add graphics (MAGICAL_TRAP)
 ];
 
