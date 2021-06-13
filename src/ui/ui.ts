@@ -6,6 +6,7 @@ import {TextBox, TEXTBOX_VERT_RATIO} from "./textbox";
 import {TextInput} from "./textinput";
 import * as Characters from "../mechanics/character";
 import {Character} from "../mechanics/character";
+import {InputMode} from "./ui_def";
 
 
 export enum Screen {
@@ -51,6 +52,7 @@ export class UserInterface implements UserInterfaceInterface {
 	wallColorOld: string;
 
 	hps: Array<number>
+	inputMode: InputMode;
 
 	constructor() {
 		this.drawer = new Drawer();
@@ -69,6 +71,7 @@ export class UserInterface implements UserInterfaceInterface {
 			this.hps.push(MAXHP);
 		}
 		this.wallColor = "#333";
+		this.inputMode = InputMode.INPUT_MOUSE;
 	}
 
 	/**
@@ -334,28 +337,48 @@ export class UserInterface implements UserInterfaceInterface {
 
 		this.textBox.draw(context, bgPos.pos, bgPos.scale, bgPos.bgSize);
 		if (this.textInput){
-			this.textInput.position();
+			this.textInput.position(bgPos.pos, bgPos.bgSize);
 		}
 
 	}
 
-
-	mouseClick(coords: Coord) {
-		let res: number = this.textBox.mouseClick(coords);
-		if (res != -1 && this.textCallback && this.textInput){
+	private action(actionCode: number){
+		if (actionCode != -1 && this.textCallback && this.textInput){
 			this.textCallback(this.textInput.getText());
 			this.textCallback = undefined;
 			this.textInput.delete();
 			this.textInput = undefined;
 		}
-		else if (res != -1 && this.actionCallback) {
-			this.actionCallback(res);
+		else if (actionCode != -1 && this.actionCallback) {
+			this.actionCallback(actionCode);
 		}
+	}
 
+	mouseClick(coords: Coord) {
+		if (this.inputMode == InputMode.INPUT_MOUSE){
+			let res: number = this.textBox.mouseClick(coords);
+			this.action(res);
+		}
+		else{
+			this.inputMode = InputMode.INPUT_MOUSE;
+			this.textBox.setInputMode(this.inputMode);
+		}
 	}
 
 	mouseMove(coords: Coord) {
-		this.textBox.mouseMove(coords);
+		if (this.inputMode == InputMode.INPUT_MOUSE){
+			this.textBox.mouseMove(coords);
+		}
 	}
 
+	key(kc: string){
+		if (this.inputMode == InputMode.INPUT_KB || (this.textInput && kc == "Enter")){
+			let res = this.textBox.key(kc);
+			this.action(res);
+		}
+		else if(!this.textInput){
+			this.inputMode = InputMode.INPUT_KB;
+			this.textBox.setInputMode(this.inputMode);
+		}
+	}
 }

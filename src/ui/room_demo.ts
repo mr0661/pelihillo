@@ -64,24 +64,24 @@ export function roomDemo(ui: UserInterface){
 			next = ROOM_INTRO[currentText].follows[ix];
 		}
 
-		if (ROOM_INTRO[next].choices.length == CHARACTER_COUNT){
-			for (let i = 0; i < CHARACTER_COUNT; i++){
-				ROOM_INTRO[next].choices[i].disable = characters[i].HP < 0.1;
-			}
-		}
-
-		let anims = new AnimationObject();
-		if (next == 3 || next == 4){
-			anims.characterAnimations = [
-				ix == 0 ? Animation.ACTION : Animation.IDLE,
-				ix == 1 ? Animation.ACTION : Animation.IDLE,
-				ix == 2 ? Animation.ACTION : Animation.IDLE,
-				ix == 3 ? Animation.ACTION : Animation.IDLE,
-			]
-		}
-
-
 		if (next < ROOM_INTRO.length){
+
+			if (ROOM_INTRO[next].choices.length == CHARACTER_COUNT){
+				for (let i = 0; i < CHARACTER_COUNT; i++){
+					ROOM_INTRO[next].choices[i].disable = characters[i].HP < 0.1;
+				}
+			}
+
+			let anims = new AnimationObject();
+			if (next == 3 || next == 4){
+				anims.characterAnimations = [
+					ix == 0 ? Animation.ACTION : Animation.IDLE,
+					ix == 1 ? Animation.ACTION : Animation.IDLE,
+					ix == 2 ? Animation.ACTION : Animation.IDLE,
+					ix == 3 ? Animation.ACTION : Animation.IDLE,
+				]
+			}
+
 			currentText = next;
 			ui.display(ROOM_INTRO[next].text, ROOM_INTRO[next].choices, anims, function(ix){
 				follows(ix);

@@ -12,4 +12,8 @@ export function addListeners(canvas: HTMLCanvasElement, ui: UserInterface): void
 	canvas.addEventListener("mousemove", function(event: MouseEvent){
 		ui.mouseMove(new Coord(event.pageX - canvas.offsetLeft, event.pageY - canvas.offsetTop));
 	});
+
+	document.addEventListener("keypress", function(event: KeyboardEvent){
+		ui.key(event.key);
+	});
 }
