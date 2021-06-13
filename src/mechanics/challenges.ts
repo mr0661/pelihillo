@@ -15,7 +15,7 @@ import {Green_Ooze} from "./challenges/green_ooze";
 const Challenges = [Magical_Trap
 	, Yellow_Dragon, Red_Dragon, Blue_Dragon, Green_Dragon
 	, Yellow_Ooze  , Red_Ooze  , Blue_Ooze  , Green_Ooze
-	, Full_Party_Doom];
+	];
 export const KeyRooms =
 [ KeyRoom.WoodenKeyRoom
 , KeyRoom.CopperKeyRoom
