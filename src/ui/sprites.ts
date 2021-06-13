@@ -26,7 +26,7 @@ export enum SpriteName {
 	BLUE_DRAGON,
 	GREEN_DRAGON,
 	RED_DRAGON,
-	PURPLE_DRAGON,  // TODO add this enemy!
+	PURPLE_DRAGON,
 	YELLOW_DRAGON,
 	BLUE_OOZE,
 	GREEN_OOZE,

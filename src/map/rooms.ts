@@ -1,3 +1,5 @@
+import {Note} from "../api/apiportal";
+
 const ROOMS_DEBUG: boolean = true;
 
 enum EnterStrategy {
@@ -185,7 +187,7 @@ interface RoadTravelled {
 	room2: Room;
 }
 
-let g_messages: Array<Array<string>> = new Array<Array<string>>();
+let g_messages: Array<Array<Note>> = new Array<Array<Note>>();
 let g_roadsTravelled: RoadTravelled[] = new Array<RoadTravelled>();
 let g_roomsCleared: Room[] = new Array<Room>();
 
@@ -196,9 +198,10 @@ function resetMessageText(): void {
 	g_messages.length = 0;
 	for (let i: number = 0; i < ROOMS.length * 4; i++) {
 		// TODO get actual messages from actual server
-		g_messages.push(["This door should have message " + Math.floor(i / 4).toString(), "No message here " + (i % 4).toString()]);
+		g_messages.push([
+			{id: 1, message: "This door should have message " + Math.floor(i / 4).toString()},
+			{id: 2, message: "No message here " + (i % 4).toString()}]);
 	}
-	console.log("resetMessageText: " + g_messages.length);
 }
 
 export function reset(): void {
@@ -207,7 +210,7 @@ export function reset(): void {
 	g_roomsCleared.length = 0;
 }
 
-export function getMessage(from: Room, to: Room): string[] {
+export function getMessage(from: Room, to: Room): Note[] {
 	if (ROOMS_DEBUG) {
 		console.log("getMessage: " + getDoorId(from, to).toString() + "/" + g_messages.length);
 	}

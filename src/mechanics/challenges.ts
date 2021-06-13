@@ -1,4 +1,3 @@
-import {Magical_Trap} from "./challenges/magical_trap";
 import {Yellow_Dragon} from "./challenges/yellow_dragon";
 import {Purple_Dragon} from "./challenges/purple_dragon";
 import {Full_Party_Doom} from "./challenges/doomroom";
@@ -13,8 +12,7 @@ import {Yellow_Ooze} from "./challenges/yellow_ooze";
 import {Blue_Ooze} from "./challenges/blue_ooze";
 import {Green_Ooze} from "./challenges/green_ooze";
 
-const Challenges = [Magical_Trap
-	, Yellow_Dragon, Red_Dragon, Blue_Dragon, Green_Dragon, Purple_Dragon
+const Challenges = [Yellow_Dragon, Red_Dragon, Blue_Dragon, Green_Dragon, Purple_Dragon
 	, Yellow_Ooze, Red_Ooze, Blue_Ooze, Green_Ooze
 ];
 export const KeyRooms =
@@ -28,7 +26,7 @@ export const KeyRooms =
 	];
 
 export function getRandomChallenge(): Challenge {
-	return Challenges[Math.floor(Math.random() * Challenges.length)];
+	return Challenges[0];
 }
 
 export function doomCountdown(): boolean {

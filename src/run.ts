@@ -3,19 +3,22 @@ import {SpriteName} from "./ui/sprites";
 import {clearRoom, resetCharacters} from "./mechanics/gameplay";
 import {Challenge, Key, Keys_Obtained} from "./mechanics/core";
 import * as map from "./map/rooms";
-import {dropIntoRoom, getMessage} from "./map/rooms";
+import {dropIntoRoom, getDoorId, getMessage} from "./map/rooms";
 import {TextDisplayObject} from "./ui/interface";
 import {doomCountdown, getRandomChallenge, KeyRooms} from "./mechanics/challenges";
 import {Full_Party_Doom} from "./mechanics/challenges/doomroom";
 import {AnimationObject} from "./ui/animation";
+import {downVoteNote, Note, upVoteNote} from "./api/apiportal";
 
 const RUN_DEBUG: boolean = true;
 
+let g_votes_given: number;
 let g_startRoom: map.Room;
 let g_currentRoom: map.Room;
 let g_nextRooms: map.NextRooms;
 let g_isMessageAvailable: boolean;
 let g_currentChallenge: Challenge;
+let g_messages_on_doors: Array<Note> = new Array<Note>();
 
 function isMessageAvailable(): boolean {
 	// TODO add more interesting logic
@@ -42,6 +45,8 @@ export function startGame(): void {
 	map.reset();
 	Keys_Obtained.resetKeys();
 	resetCharacters();
+	g_votes_given = 0;
+	g_messages_on_doors.length = 0;
 
 	let roomIndex = Math.floor(Math.random() * map.ROOMS.length);
 	g_startRoom = map.ROOMS[roomIndex];
@@ -64,10 +69,10 @@ const CANCEL = 4;
 
 const MAX_TEXT_LENGTH = 255;
 
-function joinMessages(messages: Array<string>): string {
+function joinMessages(messages: Array<Note>): string {
 	let joined: string = "";
 	for (let i: number = 0; i < messages.length; i++) {
-		joined += messages[i] + "\n";
+		joined += messages[i].message + "\n";
 	}
 	return joined;
 }
@@ -97,6 +102,11 @@ function roomSelect(index: number): void {
 	} else {
 		// Move to new room
 		const nextRoom = index == LEFT ? g_nextRooms.left : index == FRONT ? g_nextRooms.front : g_nextRooms.right;
+		const messages: Array<Note> = getMessage(g_currentRoom, nextRoom);
+		for (let i: number = 0; i < messages.length; i++) {
+			g_messages_on_doors.push(messages[i]);
+		}
+
 		g_nextRooms = map.enterRoom(g_currentRoom, nextRoom);
 		g_currentRoom = nextRoom;
 		enterRoom();
@@ -185,14 +195,13 @@ function roomCombat(): void {
 }
 
 function roomCombatResolved(aliveCharacters: boolean): void {
-	if (!doomCountdown()){
+	if (RUN_DEBUG) {
+		console.log("roomCombatResolved: start");
+	}
+	if (!doomCountdown()) {
 		console.log("DOOMED!");
 		gameEnd("The curse has claimed the party, killing everyone.");
 		return;
-	}
-
-	if (RUN_DEBUG) {
-		console.log("roomCombatResolved: start");
 	}
 	if (!aliveCharacters) {
 		console.log("Game end!");
@@ -202,8 +211,50 @@ function roomCombatResolved(aliveCharacters: boolean): void {
 	}
 }
 
-function gameEnd(explanation: string): void {
+function voteNotes(index: number): void {
+	if (RUN_DEBUG) {
+		console.log("voteNotes: start");
+	}
+	if (index == 0 || index == 1) {
+		g_votes_given++;
+		const message: Note = g_messages_on_doors.pop();
+		if (index == 0) {
+			console.log("up vote:", message.message, message.id);
+			// upVoteNote(message.id); // TODO no return value handling, perhaps it went through
+		}
+		if (index == 1) {
+			console.log("down vote:", message.message, message.id);
+			// downVoteNote(message.id); // TODO no return value handling, perhaps it went through
+		}
+	}
+	if (g_votes_given > 3 || index == 3) {
+		startGame();
+		return;
+	}
+	const upVote: TextDisplayObject = new TextDisplayObject("Up vote", "Up vote this message so it will be more likely to show up later.", false);
+	const downVote: TextDisplayObject = new TextDisplayObject("Down vote", "Down vote this message so it will be less likely to show up later.", false);
+	const skipVote: TextDisplayObject = new TextDisplayObject("Skip vote", "Do not give vote for this message.", false);
+	const stopVote: TextDisplayObject = new TextDisplayObject("End vote", "Stop voting messages", false);
+	ui.display("\"" + g_messages_on_doors[g_messages_on_doors.length - 1].message + "\"", [upVote, downVote, skipVote, stopVote], undefined, voteNotes);
+}
 
-	const try_again: TextDisplayObject = new TextDisplayObject("Try to escape dungeon again?", "Try again.", false);
-	ui.display(explanation, [try_again], undefined, startGame);
+function gameEnd(explanation: string): void {
+	if (RUN_DEBUG) {
+		console.log("gameEnd: start");
+	}
+	const vote: TextDisplayObject = new TextDisplayObject("Vote on messages on doors", "Your fates are joined with those who come next!", false);
+	const try_again: TextDisplayObject = new TextDisplayObject("Just try to escape dungeon again?", "Try again.", false);
+	ui.display(explanation, [vote, try_again], undefined, gameEndDecision);
+}
+
+function gameEndDecision(index: number): void {
+	if (RUN_DEBUG) {
+		console.log("gameEndDecision: start");
+	}
+	if (index == 0) {
+		voteNotes(2);
+	}
+	if (index == 1) {
+		startGame();
+	}
 }
