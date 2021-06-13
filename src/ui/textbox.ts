@@ -91,10 +91,13 @@ export class TextBox {
 		for (let i = 0; i < this.currentChoices.length; i++) {
 			choices.push(this.currentChoices[i]);
 		}
+		context.globalAlpha = 0.8;
 		context.fillStyle = "#111";
-		context.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
+		context.fillRect(this.position.x, this.position.y, this.size.x, 10 * scale.y);
 		context.fillStyle = "#aaa";
 		context.fillRect(this.position.x, this.position.y + 10 * scale.y, this.size.x, this.size.y);
+		context.globalAlpha = 1;
+
 		const fontSize = Math.floor(50 * scale.x);
 		context.font = fontSize + "px mainFont";
 		context.fillStyle = "#333";

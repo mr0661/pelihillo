@@ -18,7 +18,7 @@ export enum Screen {
 const ROOM_ENTER_DURATION: number = 1000;
 const BASE_UI_HEIGHT: number = 1000;
 const FLASH_DURATION: number = 300;
-const characters = [Characters.Fighter, Characters.Ranger, Characters.Thinker, Characters.Tinkerer];
+const characters = [Characters.Thinker, Characters.Ranger, Characters.Tinkerer, Characters.Fighter];
 const MAXHP = 10;
 
 export class UserInterface implements UserInterfaceInterface {
@@ -167,7 +167,7 @@ export class UserInterface implements UserInterfaceInterface {
 			this.wasAction = false;
 		}
 
-		const delta = 0.2;
+		const delta = 0.4;
 
 		for(let i = 0; i < CHARACTER_COUNT; i++){
 			if (Math.abs(this.hps[i] - characters[i].HP) < delta){
@@ -275,14 +275,18 @@ export class UserInterface implements UserInterfaceInterface {
 			let state: Animation = this.animation.characterAnimations.length > i ?
 				this.animation.characterAnimations[i] : Animation.IDLE;
 
+			let pos: Coord = new Coord((i * 330 + 100) * posScale.scale.x,
+				posScale.bgSize.y - 500 * scale).add(offset);
+			pos.y -= this.drawer.getSpriteSize(SpriteName.CHAR_1_BACK + i, scale).y;
 			if (state == Animation.IDLE) {
-				let pos: Coord = new Coord((i * 330 + 100) * posScale.scale.x,
-					posScale.bgSize.y - 500 * scale).add(offset);
-				pos.y -= this.drawer.getSpriteSize(SpriteName.CHAR_1_BACK + i, scale).y;
 				const frame = state == Animation.IDLE ? 0 : 2;
 				this.drawer.drawSprite(context,
 					SpriteName.CHAR_1_BACK + CHARACTER_COUNT * frame + i,
 					posScale.pos.add(new Coord(0, 200 * scale)), posScale.scale);
+				this.drawHP(context, i, pos, posScale.scale.x);
+			}
+			else if (state == Animation.ACTION){
+				pos.y += 200 * scale;
 				this.drawHP(context, i, pos, posScale.scale.x);
 			}
 		}
@@ -303,10 +307,6 @@ export class UserInterface implements UserInterfaceInterface {
 		let enemySprite = useOld ? this.enemySpriteOld : this.enemySprite;
 
 		const posScale = this.getBgPosition(canvasSize);
-		const enemyBottom: Coord = posScale.pos.add(new Coord(posScale.bgSize.x * 0.65,
-			posScale.bgSize.y * 0.55));
-		const enemyTop = enemyBottom.copy();
-		enemyTop.y -= this.drawer.getSpriteSize(enemySprite, posScale.scale.x).y;
 
 		let time = Date.now();
 		let isAction = false;
@@ -317,12 +317,10 @@ export class UserInterface implements UserInterfaceInterface {
 				break;
 			}
 		}
-
+		const pos = posScale.pos;
+		const scale = posScale.scale;
 		if (this.animation.enemyAnimation != Animation.DEAD && !useOld){
 			if(!isAction || Math.floor(time/20) % 2 == 0){
-				const posScale = this.getBgPosition(canvasSize);
-				const pos = posScale.pos;
-				const scale = posScale.scale;
 				this.drawer.drawSprite(context, enemySprite, pos, scale);
 			}
 		}
@@ -332,13 +330,11 @@ export class UserInterface implements UserInterfaceInterface {
 				this.animation.characterAnimations[i] : Animation.IDLE;
 
 			if (state == Animation.ACTION) {
-				const pos: Coord = enemyBottom.add(new Coord(-200, 200).multiply(posScale.scale.x));
 				const spriteName = SpriteName.CHAR_1_FRONT + i;
-				pos.y -= this.drawer.getSpriteSize(spriteName, posScale.scale.x).y;
 				if(!isAction || Math.floor(time/20) % 2 == 0){
-					this.drawer.drawSprite(context, spriteName, pos, posScale.scale);
+					const sprPos = posScale.pos.add(new Coord(0, 200 * scale.x));
+					this.drawer.drawSprite(context, spriteName, sprPos, scale);
 				}
-				this.drawHP(context, i, pos, posScale.scale.x);
 			}
 		}
 
@@ -353,9 +349,9 @@ export class UserInterface implements UserInterfaceInterface {
 		this.drawRoomBackground(context, canvasSize,
 			useOld ? this.wallColorOld : this.wallColor,
 			useOld ? this.doorsOpenOld : this.doorsOpen);
+		this.drawFront(context, canvasSize, useOld);
 
 		this.drawCharacterBacks(context, canvasSize);
-		this.drawFront(context, canvasSize, useOld);
 
 		const bgPos = this.getBgPosition(canvasSize);
 

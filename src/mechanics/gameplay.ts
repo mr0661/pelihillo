@@ -36,13 +36,13 @@ export function clearRoom(currentRoom: Core.Challenge, callback: (boolean) => vo
 
 	// Todo: names, proper aliveness check
 	const characterNames = [
-		new TextDisplayObject("Fighter", "Choose Fighter", Characters.Fighter.HP <= 0),
-		new TextDisplayObject("Ranger", "Choose Ranger", Characters.Ranger.HP <= 0),
 		new TextDisplayObject("Thinker", "Choose Thinker", Characters.Thinker.HP <= 0),
-		new TextDisplayObject("Tinkerer", "Choose Tinkerer", Characters.Tinkerer.HP <= 0)
+		new TextDisplayObject("Ranger", "Choose Ranger", Characters.Ranger.HP <= 0),
+		new TextDisplayObject("Tinkerer", "Choose Tinkerer", Characters.Tinkerer.HP <= 0),
+		new TextDisplayObject("Fighter", "Choose Fighter", Characters.Fighter.HP <= 0)
 	];
 
-	const characters = [Characters.Fighter, Characters.Ranger, Characters.Thinker, Characters.Tinkerer];
+	const characters = [Characters.Thinker, Characters.Ranger, Characters.Tinkerer, Characters.Fighter];
 
 	const chooseText = "Choose your character:";
 	const preText = currentRoom.getDescription();
