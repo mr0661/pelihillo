@@ -16,13 +16,13 @@ interface KeyName {
 	name: string;
 }
 
-let wooden_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
-let copper_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
-let brass_image_loc   : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
-let bronze_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
-let silver_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
-let golden_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
-let platinum_image_loc: SpriteName = SpriteName.ENEMY_QUESTIONABLE;
+let wooden_image_loc  : SpriteName = SpriteName.KEY_1;
+let copper_image_loc  : SpriteName = SpriteName.BOX_2;
+let brass_image_loc   : SpriteName = SpriteName.BOX_3;
+let bronze_image_loc  : SpriteName = SpriteName.BOX_4;
+let silver_image_loc  : SpriteName = SpriteName.BOX_5;
+let golden_image_loc  : SpriteName = SpriteName.BOX_6;
+let platinum_image_loc: SpriteName = SpriteName.BOX_7;
 
 let wooden_description  : string = "TODO";
 let copper_description  : string = "TODO";

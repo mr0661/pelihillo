@@ -33,7 +33,21 @@ export enum SpriteName {
 	RED_OOZE,
 	YELLOW_OOZE,
 	DOOM_ROOM,
-	MAGICAL_TRAP
+	BOX_1,
+	BOX_2,
+	BOX_3,
+	BOX_4,
+	BOX_5,
+	BOX_6,
+	BOX_7,
+	KEY_1,
+	KEY_2,
+	KEY_3,
+	KEY_4,
+	KEY_5,
+	KEY_6,
+	KEY_7,
+
 }
 
 let SPRITE_URLS = [
@@ -69,7 +83,20 @@ let SPRITE_URLS = [
 	"ooze_red.png", // TODO add graphics (RED_OOZE) (currently generic)
 	"ooze_yellow.png", // TODO add graphics (YELLOW_OOZE) (currently generic)
 	"lohikaarme_generic.png", // TODO add graphics (DOOM_ROOM
-	"lohikaarme_generic.png", // TODO add graphics (MAGICAL_TRAP)
+	"kaappi_ja_varjot1.png",
+	"kaappi_ja_varjot2.png",
+	"kaappi_ja_varjot3.png",
+	"kaappi_ja_varjot4.png",
+	"kaappi_ja_varjot5.png",
+	"kaappi_ja_varjot6.png",
+	"kaappi_ja_varjot7.png",
+	"avain1.png",
+	"avain2.png",
+	"avain3.png",
+	"avain4.png",
+	"avain5.png",
+	"avain6.png",
+	"avain7.png",
 ];
 
 export class Drawer {
