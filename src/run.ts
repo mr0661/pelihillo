@@ -84,7 +84,7 @@ function chooseRoom(): void {
 	const left: TextDisplayObject = new TextDisplayObject("Left", joinMessages(getMessage(g_currentRoom, g_nextRooms.left)), g_nextRooms.left == map.BLOCKED_ROOM);
 	const front: TextDisplayObject = new TextDisplayObject("Front", joinMessages(getMessage(g_currentRoom, g_nextRooms.front)), g_nextRooms.front == map.BLOCKED_ROOM);
 	const right: TextDisplayObject = new TextDisplayObject("Right", joinMessages(getMessage(g_currentRoom, g_nextRooms.right)), g_nextRooms.right == map.BLOCKED_ROOM);
-	const leave: TextDisplayObject = new TextDisplayObject("Leave Message", "", isMessageAvailable());
+	const leave: TextDisplayObject = new TextDisplayObject("Leave Message", "", !isMessageAvailable());
 	if (left.disable && front.disable && right.disable) {
 		gameEnd("The goblins find that their only exit back has been locked. They do not have all the required 7 keys. They will surely starve to death!");
 		return;
@@ -98,11 +98,11 @@ function roomSelect(index: number): void {
 	}
 	if (index == TEXT) {
 		ui.display("Which door you want to leave message", [
-			new TextDisplayObject("Left", joinMessages(getMessage(g_currentRoom, g_nextRooms.left)), true),
-			new TextDisplayObject("Front", joinMessages(getMessage(g_currentRoom, g_nextRooms.front)), true),
-			new TextDisplayObject("Right", joinMessages(getMessage(g_currentRoom, g_nextRooms.right)), true),
-			new TextDisplayObject("Back", joinMessages(getMessage(g_currentRoom, g_nextRooms.back)), true),
-			new TextDisplayObject("Cancel", "", true)], new AnimationObject(), selectRoomToLeaveNote);
+			new TextDisplayObject("Left", joinMessages(getMessage(g_currentRoom, g_nextRooms.left)), false),
+			new TextDisplayObject("Front", joinMessages(getMessage(g_currentRoom, g_nextRooms.front)), false),
+			new TextDisplayObject("Right", joinMessages(getMessage(g_currentRoom, g_nextRooms.right)), false),
+			new TextDisplayObject("Back", joinMessages(getMessage(g_currentRoom, g_nextRooms.back)), false),
+			new TextDisplayObject("Cancel", "", false)], new AnimationObject(), selectRoomToLeaveNote);
 	} else {
 		// Move to new room
 		const nextRoom = index == LEFT ? g_nextRooms.left : index == FRONT ? g_nextRooms.front : g_nextRooms.right;

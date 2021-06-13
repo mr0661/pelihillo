@@ -203,7 +203,7 @@ function resetMessageText(): void {
 	g_messages.length = 0;
 	for (let i: number = 0; i < ROOMS.length * 4; i++) {
 		const messages: Array<Note> = [
-			{id: 50, message: "This door should have message " + Math.floor(i / 4).toString()}];
+			{id: 50, message: "This door should have message " + Math.floor(i / 4).toString() + ", " + Math.floor(i % 4).toString()}];
 		// const message = getNotes(i); // TODO Add this back remove previous stuff
 		g_messages.push(messages);
 	}
