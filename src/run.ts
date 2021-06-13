@@ -1,7 +1,7 @@
 import {ui} from "./ui/ui_def";
 import {SpriteName} from "./ui/sprites";
-import {clearRoom} from "./mechanics/gameplay";
-import {Challenge} from "./mechanics/core";
+import {clearRoom, resetCharacters} from "./mechanics/gameplay";
+import {Challenge, Keys_Obtained} from "./mechanics/core";
 import * as map from "./map/rooms";
 import {dropIntoRoom, getMessage} from "./map/rooms";
 import {TextDisplayObject} from "./ui/interface";
@@ -40,6 +40,9 @@ export function startGame(): void {
 	}
 	resetMessageUsed();
 	map.reset();
+	Keys_Obtained.resetKeys();
+	resetCharacters();
+
 	let roomIndex = Math.floor(Math.random() * map.ROOMS.length);
 	g_startRoom = map.ROOMS[roomIndex];
 	while (g_startRoom.strategy != map.STANDARD) {
@@ -188,9 +191,15 @@ function roomCombatResolved(aliveCharacters: boolean): void {
 		console.log("roomCombatResolved: start");
 	}
 	if (!aliveCharacters) {
-		// TODO END GAME
 		console.log("Game end!");
-		return;
+		gameEnd("Your party has fallen.");
+	} else {
+		chooseRoom();
 	}
-	chooseRoom();
+}
+
+function gameEnd(explanation: string): void {
+
+	const try_again: TextDisplayObject = new TextDisplayObject("Try to escape dungeon again?", "Try again.", false);
+	ui.display(explanation, [try_again], undefined, startGame);
 }
