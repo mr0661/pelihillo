@@ -4,6 +4,7 @@
 
 import * as Core from "../core";
 import {ActionResult, Keys_Obtained} from "../core";
+import {SpriteName} from "../../ui/sprites";
 
 let unused_result: Core.ActionResult =
 { damage: 0
@@ -15,13 +16,13 @@ interface KeyName {
 	name: string;
 }
 
-let wooden_image_loc  : string = "data/challenges/woodenkeyroom.png";
-let copper_image_loc  : string = "data/challenges/copperkeyroom.png";
-let brass_image_loc   : string = "data/challenges/brasskeyroom.png";
-let bronze_image_loc  : string = "data/challenges/bronzekeyroom.png";
-let silver_image_loc  : string = "data/challenges/silverkeyroom.png";
-let golden_image_loc  : string = "data/challenges/goldenkeyroom.png";
-let platinum_image_loc: string = "data/challenges/platinumkeyroom.png";
+let wooden_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
+let copper_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
+let brass_image_loc   : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
+let bronze_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
+let silver_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
+let golden_image_loc  : SpriteName = SpriteName.ENEMY_QUESTIONABLE;
+let platinum_image_loc: SpriteName = SpriteName.ENEMY_QUESTIONABLE;
 
 let wooden_description  : string = "TODO";
 let copper_description  : string = "TODO";
@@ -39,7 +40,7 @@ class KeyRoom extends Core.Challenge {
 	, precision_result: ActionResult
 	, smarts_result   : ActionResult
 	, craft_result    : ActionResult
-	, image_location  : string
+	, image_location  : SpriteName
 	, description     : string
 	, key             : KeyName
 	) {

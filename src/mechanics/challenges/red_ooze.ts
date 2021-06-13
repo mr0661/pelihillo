@@ -3,6 +3,7 @@
  */
 
 import * as Core from "../core";
+import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 0
@@ -24,7 +25,7 @@ let craft_result: Core.ActionResult =
 , resolution: "TODO"
 };
 
-let image_loc  : string = "data/challenges/ooze.png";
+let image_loc: SpriteName = SpriteName.RED_OOZE;
 let description: string = "A pool of red ooze sits in the middle of the room, its core close to the surface.";
 
 export const Red_Ooze = new Core.Challenge(

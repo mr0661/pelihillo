@@ -1,4 +1,5 @@
 import * as Core from "../core";
+import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 10
@@ -20,7 +21,7 @@ let craft_result: Core.ActionResult =
 , resolution: "TODO"
 };
 
-let image_loc  : string = "data/challenges/dragon.png";
+let image_loc  : SpriteName = SpriteName.BLUE_DRAGON;
 let description: string = "The party encounters a formidable blue dragon. There's an abundance of magical energies swirling around the room.";
 
 export const Blue_Dragon = new Core.Challenge(

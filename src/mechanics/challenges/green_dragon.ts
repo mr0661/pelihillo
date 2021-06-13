@@ -1,4 +1,5 @@
 import * as Core from "../core";
+import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 2
@@ -20,7 +21,7 @@ let craft_result: Core.ActionResult =
 , resolution: "The goblin was able to build a trap around the dragon and cage it, but was severely wounded in the process."
 };
 
-let image_loc  : string = "data/challenges/dragon.png";
+let image_loc: SpriteName = SpriteName.GREEN_DRAGON;
 let description: string = "The party encounters an imposing green dragon. The magical energy of the room feels drained.";
 
 export const Green_Dragon = new Core.Challenge(

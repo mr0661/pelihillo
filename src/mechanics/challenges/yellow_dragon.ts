@@ -1,4 +1,5 @@
 import * as Core from "../core";
+import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 5
@@ -20,7 +21,7 @@ let craft_result: Core.ActionResult =
 , resolution: "After initial aggression, the goblin built a splint for the dragon's leg. The dragon left happily."
 };
 
-let image_loc  : string = "data/challenges/dragon.png";
+let image_loc: SpriteName = SpriteName.YELLOW_DRAGON;
 let description: string = "The party encounters a terrifying yellow dragon. The dragon seems to be keeping weight off of one leg.";
 
 export const Yellow_Dragon = new Core.Challenge(

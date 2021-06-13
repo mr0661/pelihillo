@@ -1,6 +1,6 @@
 import {Coord} from "./coord";
 
-export enum SpriteName{
+export enum SpriteName {
 	NO_SPRITE,
 	ROOM_BG,
 	DOOR_LEFT_OPEN,
@@ -22,7 +22,18 @@ export enum SpriteName{
 	CHAR_3_DEAD,
 	CHAR_4_DEAD,
 	HPBAR,
-	ENEMY_QUESTIONABLE
+	ENEMY_QUESTIONABLE,
+	BLUE_DRAGON,
+	GREEN_DRAGON,
+	RED_DRAGON,
+	PURPLE_DRAGON,  // TODO add this enemy!
+	YELLOW_DRAGON,
+	BLUE_OOZE,
+	DOOM_ROOM,
+	GREEN_OOZE,
+	RED_OOZE,
+	YELLOW_OOZE,
+	MAGICAL_TRAP
 }
 
 let SPRITE_URLS = [
@@ -47,11 +58,21 @@ let SPRITE_URLS = [
 	"char1_dead.png",
 	"char1_dead.png",
 	"hp.png",
-	"enemy1.png"
+	"lohikaarme_generic.png",
+	"lohikaarme_blue.png",
+	"lohikaarme_green.png",
+	"lohikaarme_red.png",
+	"lohikaarme_purple.png",
+	"lohikaarme_yellow.png",
+	"lohikaarme_generic.png", // TODO add graphics (BLUE_OOZE)
+	"lohikaarme_generic.png", // TODO add graphics (DOOM_ROOM
+	"lohikaarme_generic.png", // TODO add graphics (GREEN_OOZE)
+	"lohikaarme_generic.png", // TODO add graphics (RED_OOZE)
+	"lohikaarme_generic.png", // TODO add graphics (YELLOW_OOZE)
+	"lohikaarme_generic.png", // TODO add graphics (MAGICAL_TRAP)
 ];
 
-export
-class Drawer{
+export class Drawer {
 
 	sprites: Array<HTMLImageElement>;
 	spritesLoaded: number;
@@ -60,11 +81,11 @@ class Drawer{
 		this.sprites = [];
 		this.spritesLoaded = 0;
 
-		for(let i = 0; i < SPRITE_URLS.length; i++){
+		for (let i = 0; i < SPRITE_URLS.length; i++) {
 			let sprite: HTMLImageElement = new Image();
 			let me = this;
 			sprite.src = "images/" + SPRITE_URLS[i];
-			sprite.onload = function(){
+			sprite.onload = function () {
 				me.spritesLoaded++;
 			};
 			this.sprites.push(sprite);
@@ -74,34 +95,33 @@ class Drawer{
 	/**
 	 * Return whether all sprites have been loaded.
 	 */
-	allSpritesLoaded(): boolean{
+	allSpritesLoaded(): boolean {
 		return this.spritesLoaded == SPRITE_URLS.length;
 	}
 
 	// Get scale which fits sprite to specified box
-	fitSpriteToBox(spriteName: SpriteName, boxSize: Coord) : Coord{
+	fitSpriteToBox(spriteName: SpriteName, boxSize: Coord): Coord {
 		const image: HTMLImageElement = this.sprites[spriteName];
 		let imageSize = new Coord(image.width, image.height);
 		let ratio = new Coord(boxSize.x / imageSize.x, boxSize.y / imageSize.y);
-		if (ratio.x < ratio.y){
+		if (ratio.x < ratio.y) {
 			return new Coord(ratio.x, ratio.x);
-		}
-		else{
+		} else {
 			return new Coord(ratio.y, ratio.y);
 		}
 	}
 
-	getSpriteSize(spriteName: SpriteName, scale?: number){
+	getSpriteSize(spriteName: SpriteName, scale?: number) {
 		scale = scale || 1;
 		let image: HTMLImageElement = this.sprites[spriteName];
 		let imageSize = new Coord(image.width, image.height);
 		return imageSize.multiply(scale);
 	}
 
-	drawSprite(context: CanvasRenderingContext2D, spriteName: SpriteName, position: Coord, scale: Coord){
+	drawSprite(context: CanvasRenderingContext2D, spriteName: SpriteName, position: Coord, scale: Coord) {
 
 		// Skip if sprite images don't exist
-		if (!this.allSpritesLoaded()){
+		if (!this.allSpritesLoaded()) {
 			return;
 		}
 		let image: HTMLImageElement = this.sprites[spriteName];
@@ -110,10 +130,10 @@ class Drawer{
 	}
 
 	drawSpriteHorizontalClipped(context: CanvasRenderingContext2D, spriteName: SpriteName,
-	                            position: Coord, scale: Coord, clipXRatio: number){
+								position: Coord, scale: Coord, clipXRatio: number) {
 
 		// Skip if sprite images don't exist
-		if (!this.allSpritesLoaded()){
+		if (!this.allSpritesLoaded()) {
 			return;
 		}
 		let image: HTMLImageElement = this.sprites[spriteName];

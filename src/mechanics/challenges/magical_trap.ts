@@ -1,4 +1,5 @@
 import * as Core from "../core";
+import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 10
@@ -20,7 +21,7 @@ let craft_result: Core.ActionResult =
 , resolution: "TODO"
 };
 
-let image_loc  : string = "data/challenges/magical_trap.png";
+let image_loc: SpriteName = SpriteName.MAGICAL_TRAP;
 let description: string = "The party is faced with a strange device, emitting dangerous magical energy.";
 
 export const Magical_Trap = new Core.Challenge(

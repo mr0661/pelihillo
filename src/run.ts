@@ -3,9 +3,8 @@ import {SpriteName} from "./ui/sprites";
 import {clearRoom} from "./mechanics/gameplay";
 import {Challenge} from "./mechanics/core";
 import * as map from "./map/rooms";
-import {BLOCKED_ROOM, dropIntoRoom, getMessage} from "./map/rooms";
+import {dropIntoRoom, getMessage} from "./map/rooms";
 import {TextDisplayObject} from "./ui/interface";
-import {RoomAnimation} from "./ui/animation";
 import {doomCountdown, getRandomChallenge, KeyRooms} from "./mechanics/challenges";
 import {Full_Party_Doom} from "./mechanics/challenges/doomroom";
 
@@ -15,6 +14,7 @@ let g_startRoom: map.Room;
 let g_currentRoom: map.Room;
 let g_nextRooms: map.NextRooms;
 let g_isMessageAvailable: boolean;
+let g_currentChallenge: Challenge;
 
 function isMessageAvailable(): boolean {
 	// TODO add more interesting logic
@@ -48,7 +48,7 @@ export function startGame(): void {
 	console.log("startGame: start " + roomIndex.toString());
 	g_currentRoom = g_startRoom;
 	g_nextRooms = dropIntoRoom(map.ROOMS[45], g_currentRoom);
-	ui.changeRoom([true, true, true], SpriteName.ENEMY_QUESTIONABLE, chooseRoom);
+	ui.changeRoom([true, true, true], SpriteName.NO_SPRITE, chooseRoom);
 }
 
 const LEFT = 0;
@@ -69,7 +69,7 @@ function joinMessages(messages: Array<string>): string {
 }
 
 function chooseRoom(): void {
-	if(RUN_DEBUG) {
+	if (RUN_DEBUG) {
 		console.log("chooseRoom: start");
 	}
 	const left: TextDisplayObject = new TextDisplayObject("Left", joinMessages(getMessage(g_currentRoom, g_nextRooms.left)), g_nextRooms.left == map.BLOCKED_ROOM);
@@ -123,7 +123,49 @@ function enterRoom(): void {
 	const frontOpen = g_nextRooms.front != map.BLOCKED_ROOM;
 	const rightOpen = g_nextRooms.right != map.BLOCKED_ROOM;
 	let openRooms: Array<boolean> = [leftOpen, frontOpen, rightOpen];
-	let challengeSprite = SpriteName.ENEMY_QUESTIONABLE;
+
+	let challengeSprite: SpriteName;
+	if (g_currentRoom == g_startRoom) {
+		// TODO special handling for start room
+		console.log("START ROOM!");
+		roomCombatResolved(true);
+		challengeSprite = SpriteName.NO_SPRITE;
+	} else if (map.isRoomCleared(g_currentRoom)) {
+		roomCombatResolved(true);
+		challengeSprite = SpriteName.NO_SPRITE;
+	} else if (g_currentRoom.strategy.action == map.RoomAction.NORMAL) {
+		console.log("NORMAL ROOM!");
+		g_currentChallenge = getRandomChallenge();
+		challengeSprite = g_currentChallenge.getImage();
+	} else if (g_currentRoom.strategy.action == map.RoomAction.REDRUM) {
+		g_currentChallenge = Full_Party_Doom;
+		challengeSprite = g_currentChallenge.getImage();
+	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY1) {
+		g_currentChallenge = KeyRooms[0];
+		challengeSprite = g_currentChallenge.getImage();
+	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY2) {
+		g_currentChallenge = KeyRooms[1];
+		challengeSprite = g_currentChallenge.getImage();
+	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY3) {
+		g_currentChallenge = KeyRooms[2];
+		challengeSprite = g_currentChallenge.getImage();
+	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY4) {
+		g_currentChallenge = KeyRooms[3];
+		challengeSprite = g_currentChallenge.getImage();
+	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY5) {
+		g_currentChallenge = KeyRooms[4];
+		challengeSprite = g_currentChallenge.getImage();
+	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY6) {
+		g_currentChallenge = KeyRooms[5];
+		challengeSprite = g_currentChallenge.getImage();
+	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY7) {
+		g_currentChallenge = KeyRooms[6];
+		challengeSprite = g_currentChallenge.getImage();
+	} else {
+		// Room combat is normal for also if map.RoomAction.RANDOM
+		g_currentChallenge = getRandomChallenge();
+		challengeSprite = g_currentChallenge.getImage();
+	}
 	ui.changeRoom(openRooms, challengeSprite, roomCombat);
 }
 
@@ -133,28 +175,8 @@ function roomCombat(): void {
 		roomCombatResolved(true);
 	} else if (map.isRoomCleared(g_currentRoom)) {
 		roomCombatResolved(true);
-	} else if (g_currentRoom.strategy.action == map.RoomAction.NORMAL) {
-		clearRoom(getRandomChallenge(), roomCombatResolved);
-		map.addClearedRoom(g_currentRoom);
-	} else if (g_currentRoom.strategy.action == map.RoomAction.REDRUM) {
-		clearRoom(Full_Party_Doom, roomCombatResolved);
-	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY1) {
-		clearRoom(KeyRooms[0], roomCombatResolved);
-	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY2) {
-		clearRoom(KeyRooms[1], roomCombatResolved);
-	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY3) {
-		clearRoom(KeyRooms[2], roomCombatResolved);
-	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY4) {
-		clearRoom(KeyRooms[3], roomCombatResolved);
-	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY5) {
-		clearRoom(KeyRooms[4], roomCombatResolved);
-	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY6) {
-		clearRoom(KeyRooms[5], roomCombatResolved);
-	} else if (g_currentRoom.strategy.action == map.RoomAction.KEY7) {
-		clearRoom(KeyRooms[6], roomCombatResolved);
 	} else {
-		// Room combat is normal for also if map.RoomAction.RANDOM
-		clearRoom(getRandomChallenge(), roomCombatResolved);
+		clearRoom(g_currentChallenge, roomCombatResolved);
 	}
 }
 

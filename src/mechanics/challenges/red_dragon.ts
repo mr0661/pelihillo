@@ -1,4 +1,5 @@
 import * as Core from "../core";
+import {SpriteName} from "../../ui/sprites";
 
 let strength_result: Core.ActionResult =
 { damage: 7
@@ -20,7 +21,7 @@ let craft_result: Core.ActionResult =
 , resolution: "The goblin was able to collapse the ceiling on the dragon, but was also buried."
 };
 
-let image_loc  : string = "data/challenges/dragon.png";
+let image_loc: SpriteName = SpriteName.RED_DRAGON;
 let description: string = "The party encounters a fearsome red dragon. A scale can be seen missing from the dragon's body.";
 
 export const Red_Dragon = new Core.Challenge(

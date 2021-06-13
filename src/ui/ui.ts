@@ -297,7 +297,10 @@ export class UserInterface implements UserInterfaceInterface {
 
 		if (this.animation.enemyAnimation != Animation.IDLE){
 			if(!isAction || Math.floor(time/20) % 2 == 0){
-				this.drawer.drawSprite(context, enemySprite, enemyTop, posScale.scale);
+				const posScale = this.getBgPosition(canvasSize);
+				const pos = posScale.pos;
+				const scale = posScale.scale;
+				this.drawer.drawSprite(context, enemySprite, pos, scale);
 			}
 		}
 
