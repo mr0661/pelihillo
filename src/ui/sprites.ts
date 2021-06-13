@@ -97,7 +97,7 @@ let SPRITE_URLS = [
 	"avain5.png",
 	"avain6.png",
 	"avain7.png",
-	"ghost_spider.png"
+	"hamahakki_generic.png"
 ];
 
 export class Drawer {
